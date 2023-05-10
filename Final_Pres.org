@@ -1,0 +1,781 @@
+* Config/Preamble :noexport:
+** Emacs Config
+#+startup: beamer
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat
+     "\\begin{frame}\n"
+     "\\maketitle\n"
+     "\\end{frame}\n"
+  ))
+  (setq org-latex-listings t)
+  (setq org-latex-images-centered nil)
+  ;; export snippet translations
+  (add-to-list 'org-export-snippet-translation-alist
+             '("b" . "beamer"))
+#+end_src
+
+** LaTeX Config
+*** Set Beamer Theme
+#+BEAMER_THEME: focus
+#+BEAMER_HEADER: \definecolor{main}{HTML}{93361f}
+#+BEAMER_HEADER: \definecolor{background}{HTML}{D0D0D0}
+
+*** Use Listings instead of verbatim
+#+LATEX_HEADER: \usepackage{listings}
+
+*** Fix Captions
+#+LATEX_HEADER: \setbeamerfont{caption}{size=\footnotesize}
+
+*** Animate
+#+LATEX_HEADER: \usepackage{animate}
+
+*** Define abs
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \DeclarePairedDelimiter\abs{\lvert}{\rvert} % ABS: abs{}
+
+*** Steal some missing glyphs
+#+BEAMER_HEADER: \setmathfont{Fira Math}
+#+BEAMER_HEADER: \setmathfont{DejaVu Math TeX Gyre}[range=\vysmwhtcircle]
+#+BEAMER_HEADER: \setmonofont{Hack}
+
+** Python Config
+
+#+NAME: plt-fig-preamble
+#+BEGIN_SRC python :results file :exports none :eval no
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
+
+for foreground in ('axes.edgecolor', 'axes.labelcolor',
+                   'boxplot.boxprops.color', 'boxplot.capprops.color',
+                   'boxplot.flierprops.color', 'boxplot.flierprops.markeredgecolor',
+                   'boxplot.whiskerprops.color', 'hatch.color', 'patch.edgecolor',
+                   'text.color', 'xtick.color', 'ytick.color'):
+    mpl.rcParams[foreground] = '#93361f'
+for background in ('figure.facecolor', 'figure.edgecolor', 'axes.facecolor'):
+    mpl.rcParams[background] = '#D0D0D0'
+
+mpl.rcParams['font.sans-serif'].insert(0,'Fira Math')
+mpl.rcParams['font.size'] = 14.0
+plt.gca().set_aspect('equal')
+plt.grid(True)
+#+END_SRC
+
+#+NAME: plt-fig-export
+#+BEGIN_SRC python :results file :exports none :eval no
+plt.savefig(path, bbox_inches='tight', dpi=300)
+return path
+#+END_SRC
+
+#+NAME: plt-iteration
+#+BEGIN_SRC python :results file :exports none :eval no
+import numpy as np
+import sympy as sp
+def iter(z_0, f):
+    z = z_0
+    while True:
+        yield complex(z)
+        z = f(z)
+
+plt.xlim(-1.5, 1.5)
+plt.ylim(-1.5, 1.5)
+plt.xlabel('Real')
+plt.ylabel('Imag')
+#+END_SRC
+
+** Export Settings
+#+title: Complex and Hypercomplex @@latex:\\@@ Iterative Methods
+#+AUTHOR: Samuel J Monson
+#+EMAIL: monsonsamuel@seattleu.edu
+#+DATE: 2023-03-07
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:1 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:https://orgmode.org/org-info.js
+#+HTML_LINK_UP:
+#+HTML_LINK_HOME:
+
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [aspectratio=169,t]
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+
+* Iteration
+
+** Function Iteration
+:PROPERTIES:
+    :BEAMER_env: definition
+:END:
+
+$f^0 := \symbf{I}$
+
+$f^{k+1} := f \circ f^k$
+
+** Example
+:PROPERTIES:
+    :BEAMER_env: exampleblock
+    :BEAMER_act: [<+->]
+:END:
+
+Given $f(x) = x + 1$,
+
+\begin{align*}
+    \only<2->{f^0(x) & = x} \\
+    \only<3->{f^1(x) & = x + 1} \\
+    \only<4->{f^2(x) & = (x + 1) + 1}
+\end{align*}
+
+* Complex Dynamics
+
+** Dynamical System
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: definition
+:END:
+
+A system that enacts rules on a set of variables to produce a state.
+
+** Complex Dynamics
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: definition
+:END:
+
+The study of _Dynamical Systems_ defined by complex iterative functions.
+
+** Notes :noexport:
+
+...
+
+To review, a Dynamical System is a system that enacts rules on a set of variables to produce a state.
+
+Complex Dynamics is the study of dynamical systems that operate on complex iterative functions.
+
+The main goals of my research have been to explore the proprieties and connections of complex dynamics, gain an understanding of hypercomplex numbers, and to explore examples of hypercomplex dynamics.
+
+
+* Complex Numbers
+
+** Complex Numbers
+:PROPERTIES:
+    :BEAMER_env: definition
+:END:
+
+$\symbf{i}^2 = -1$
+
+$\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}$
+
+** Add :ignore:
+
+* Complex Iteration
+
+** Text
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Rules
+:PROPERTIES:
+    :BEAMER_env: block
+:END:
+
+$f(z) = z^2$
+
+$z_0 = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i}$
+
+*** The Rest :ignore:
+
+#+ATTR_BEAMER: :overlay <+->
+- $f^0(z) = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i}$
+- $f^1(z) \only<2>{= \left( \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i} \right)^2 = \left( \frac{1}{\sqrt{2}} \right)^2 - \left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}\right)^2 + \left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}\right)^2 \symbf{i}} = \symbf{i}$
+- $f^2(z) = -1$
+- $f^3(z) = 1$
+
+** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Generator :ignore:
+
+#+NAME: iter_1
+#+BEGIN_SRC python :results file :exports none :eval no
+f = lambda z: z*z
+z_0 = 1/sp.sqrt(2) + 1/sp.sqrt(2) * sp.I
+data = np.fromiter(iter(z_0, f), 'complex', cnt)
+
+plt.plot(data.real, data.imag, 'o--', color='royalblue')
+#+END_SRC
+
+#+NAME: iter_1-1
+#+HEADER: :var path="Figs/exports/Iter_1-1.png" cnt=1
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_1>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_1-2
+#+HEADER: :var path="Figs/exports/Iter_1-2.png" cnt=2
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_1>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_1-3
+#+HEADER: :var path="Figs/exports/Iter_1-3.png" cnt=3
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_1>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_1-4
+#+HEADER: :var path="Figs/exports/Iter_1-4.png" cnt=4
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_1>>
+<<plt-fig-export>>
+#+END_SRC
+
+*** Results :ignore:
+
+#+LATEX: \begin{center}
+#+ATTR_BEAMER: :overlay <1>
+#+RESULTS: iter_1-1
+#+ATTR_BEAMER: :overlay <2>
+#+RESULTS: iter_1-2
+#+ATTR_BEAMER: :overlay <3>
+#+RESULTS: iter_1-3
+#+ATTR_BEAMER: :overlay <4>
+#+RESULTS: iter_1-4
+#+LATEX: \end{center}
+
+* Complex Iteration
+
+** Text
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Rules
+:PROPERTIES:
+    :BEAMER_env: block
+:END:
+
+$f(z) = z^2 - \frac{1}{10} - \frac{1}{10} \symbf{i}$
+
+$z_0 = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i}$
+
+*** The Rest :ignore:
+
+#+ATTR_BEAMER: :overlay <+->
+- $f^0(z) = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i}$
+- $f^1(z) \only<2>{= -\frac{1}{10} + \left(1 - \frac{1}{10}\right)\symbf{i}} = -0.9 - 0.28\symbf{i}$
+- $f^2(z) = 0.6316+0.404\symbf{i}$
+- $f^3(z) \approx 0.13570256 + 0.4103328\symbf{i}$
+
+** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Generator :ignore:
+
+#+NAME: iter_2
+#+BEGIN_SRC python :results file :exports none :eval no
+f = lambda z: z*z
+z_0 = 1/sp.sqrt(2) + 1/sp.sqrt(2) * sp.I
+prev_data = np.fromiter(iter(z_0, f), 'complex', 4)
+plt.plot(prev_data.real, prev_data.imag, 'o--', color='royalblue')
+
+f = lambda z: z*z - 1/10 - 1/10*sp.I
+z_0 = 1/sp.sqrt(2) + 1/sp.sqrt(2) * sp.I
+data = np.fromiter(iter(z_0, f), 'complex', cnt)
+
+plt.plot(data.real, data.imag, 'o--', color='forestgreen')
+#+END_SRC
+
+#+NAME: iter_2-1
+#+HEADER: :var path="Figs/exports/Iter_2-1.png" cnt=1
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_2>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_2-2
+#+HEADER: :var path="Figs/exports/Iter_2-2.png" cnt=2
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_2>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_2-3
+#+HEADER: :var path="Figs/exports/Iter_2-3.png" cnt=3
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_2>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_2-4
+#+HEADER: :var path="Figs/exports/Iter_2-4.png" cnt=4
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_2>>
+<<plt-fig-export>>
+#+END_SRC
+
+*** Results :ignore:
+
+#+LATEX: \begin{center}
+#+ATTR_BEAMER: :overlay <1>
+#+RESULTS: iter_2-1
+#+ATTR_BEAMER: :overlay <2>
+#+RESULTS: iter_2-2
+#+ATTR_BEAMER: :overlay <3>
+#+RESULTS: iter_2-3
+#+ATTR_BEAMER: :overlay <4>
+#+RESULTS: iter_2-4
+#+LATEX: \end{center}
+
+* Group Activity
+
+$f(z) = z^2 + c$
+
+** Easier
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: block
+:END:
+$c = -0.2 + 0 \symbf{i}$
+
+$z_0 = 0.5 + 0 \symbf{i}$
+
+** Harder
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: block
+:END:
+$c = -0.2 + 0.4 \symbf{i}$
+
+$z_0 = 0.5 - 0.5 \symbf{i}$
+
+* Group Activity (Easier)
+
+** Text
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Rules
+:PROPERTIES:
+    :BEAMER_env: block
+:END:
+
+$f(z) = z^2 + c$
+
+$c = -0.2 + 0 \symbf{i}$
+
+$z_0 = 0.5 + 0 \symbf{i}$
+
+*** The Rest :ignore:
+
+#+ATTR_BEAMER: :overlay <+->
+- $f^1(z) = 0.05$
+- $f^2(z) = -0.1975$
+- $f^3(z) = -0.16099375$
+- $f^4(z) = -0.1740810125$
+
+** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Generator :ignore:
+
+#+NAME: iter_3
+#+BEGIN_SRC python :results file :exports none :eval no
+f = lambda z: z*z - 0.2
+z_0 = 0.5
+data = np.fromiter(iter(z_0, f), 'complex', cnt)
+
+plt.plot(data.real, data.imag, 'o--', color='royalblue')
+#+END_SRC
+
+#+NAME: iter_3-1
+#+HEADER: :var path="Figs/exports/Iter_3-1.png" cnt=1
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_3>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_3-2
+#+HEADER: :var path="Figs/exports/Iter_3-2.png" cnt=2
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_3>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_3-3
+#+HEADER: :var path="Figs/exports/Iter_3-3.png" cnt=3
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_3>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_3-4
+#+HEADER: :var path="Figs/exports/Iter_3-4.png" cnt=4
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_3>>
+<<plt-fig-export>>
+#+END_SRC
+
+*** Results :ignore:
+
+#+LATEX: \begin{center}
+#+ATTR_BEAMER: :overlay <1>
+#+RESULTS: iter_3-1
+#+ATTR_BEAMER: :overlay <2>
+#+RESULTS: iter_3-2
+#+ATTR_BEAMER: :overlay <3>
+#+RESULTS: iter_3-3
+#+ATTR_BEAMER: :overlay <4>
+#+RESULTS: iter_3-4
+#+LATEX: \end{center}
+
+* Group Activity (Harder)
+
+** Text
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Rules
+:PROPERTIES:
+    :BEAMER_env: block
+:END:
+
+$f(z) = z^2 + c$
+
+$c = -0.2 + 0.4 \symbf{i}$
+
+$z_0 = 0.5 - 0.5 \symbf{i}$
+
+*** The Rest :ignore:
+
+#+ATTR_BEAMER: :overlay <+->
+- $f^1(z) = -0.2 - 0.1 \symbf{i}$
+- $f^2(z) = -0.17 + 0.44 \symbf{i}$
+- $f^3(z) = -0.3647 + 0.2504 \symbf{i}$
+- $f^4(z) = -0.12969407 + 0.21735824 \symbf{i}$
+
+** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+*** Generator :ignore:
+
+#+NAME: iter_4
+#+BEGIN_SRC python :results file :exports none :eval no
+f = lambda z: z*z - 0.2 + 0.4*sp.I
+z_0 = 0.5 - 0.5*sp.I
+data = np.fromiter(iter(z_0, f), 'complex', cnt)
+
+plt.plot(data.real, data.imag, 'o--', color='forestgreen')
+#+END_SRC
+
+#+NAME: iter_4-1
+#+HEADER: :var path="Figs/exports/Iter_4-1.png" cnt=1
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_4>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_4-2
+#+HEADER: :var path="Figs/exports/Iter_4-2.png" cnt=2
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_4>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_4-3
+#+HEADER: :var path="Figs/exports/Iter_4-3.png" cnt=3
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_4>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_4-4
+#+HEADER: :var path="Figs/exports/Iter_4-4.png" cnt=4
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_4>>
+<<plt-fig-export>>
+#+END_SRC
+
+*** Results :ignore:
+
+#+LATEX: \begin{center}
+#+ATTR_BEAMER: :overlay <1>
+#+RESULTS: iter_4-1
+#+ATTR_BEAMER: :overlay <2>
+#+RESULTS: iter_4-2
+#+ATTR_BEAMER: :overlay <3>
+#+RESULTS: iter_4-3
+#+ATTR_BEAMER: :overlay <4>
+#+RESULTS: iter_4-4
+#+LATEX: \end{center}
+
+* Implementation
+
+** Iteration
+
+#+BEGIN_SRC python -n :eval no
+N = 128
+B = 16
+c = complex(-0.675, -0.112)
+def iterate(z):
+    for n in range(N):
+        z = z*z + c
+        if abs(z) > B: break
+    return n
+#+END_SRC
+
+* Iterative Fractals
+
+** Text :BMCOL:
+:PROPERTIES:
+    :BEAMER_col: 0.55
+:END:
+
+*** Complex Juila Set Example
+
+Defined by iterative function in complex space
+
+- $f_c (z) = z^2 + c$
+
+- $\left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} \in \symbb{C} \text{ as } k \to \infty\right\} \in K_c$
+
+** Julia Set :BMCOL:
+:PROPERTIES:
+    :BEAMER_col: 0.45
+:END:
+
+#+ATTR_LATEX: :center yes :width 0.95\textwidth
+[[./Figs/Fig_2.png]]
+
+** Notes :noexport:
+
+To start,
+
+On the right is an example of a complex dynamical system commonly called a Julia set, or more accurately a filled Julia set.
+
+The left side shows the function and rule that define the set. To simply the syntax we re-define f to k to mean f composed k times.
+
+A point, $z_0$, is in the set if it stays bounded as we iterate infinite times; bounded means that the point does not go to infinity.
+
+
+* Hypercomplex (Quaternions)
+
+** Quaternion
+:PROPERTIES:
+    :BEAMER_env: definition
+:END:
+
+$\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1$
+
+$\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right\} \in \symbb{H}$
+
+** Proof
+:PROPERTIES:
+    :BEAMER_col: 0.50
+:END:
+
+#+ATTR_BEAMER: :overlay <+->
+- $\symbf{i}^2 = \symbf{ijk}$
+  - $\symbf{i}^{-1} \symbf{i}^2 = \symbf{i}^{-1} \symbf{ijk}$
+  - $\symbf{i} = \symbf{jk}$
+- $\symbf{k}^2 = \symbf{ijk}$
+  - $\symbf{k}^2 \symbf{k}^{-1} = \symbf{ijk} \symbf{k}^{-1}$
+  - $\symbf{k} = \symbf{ij}$
+- $\symbf{j} = \symbf{ki}$
+
+** Proof
+:PROPERTIES:
+    :BEAMER_col: 0.50
+:END:
+
+#+ATTR_BEAMER: :overlay <+->
+- $\symbf{i} = \symbf{jk}$
+  - $\symbf{ji} = \symbf{jjk}$
+  - $\symbf{ji} = \symbf{j}^2 \symbf{k}$
+  - $\symbf{ji} = -\symbf{k}$
+  - $-\symbf{k} = \symbf{ji}$
+- $-\symbf{i} = \symbf{kj}$
+- $-\symbf{j} = \symbf{ik}$
+
+* Hypercomplex (Quaternions)
+
+$\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1$
+
+$p = d + a\symbf{i} + b\symbf{j} + c\symbf{k}$
+
+$q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}$
+
+\begin{align*}
+    p \times q & = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\
+    & + aw\symbf{i} + ax\symbf{i}^2 + ay\symbf{ij} + az\symbf{ik} \\
+    & + bw\symbf{j} + bx\symbf{ji} + by\symbf{j}^2 + bz\symbf{jk} \\
+    & + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2
+\end{align*}
+
+* Hypercomplex (Quaternions)
+
+* Group Activity
+
+$f(z) = z^2 + q$
+
+** Easier
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: block
+:END:
+$q = -0.2 + 0.4\symbf{i} + 0\symbf{j} + 0\symbf{k}$
+
+$z_0 = 0.5 - 0.5\symbf{i} + 0\symbf{j} + 0\symbf{k}$
+
+** TODO Harder
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: block
+:END:
+$q = -0.2 + 0.4\symbf{i} + 0\symbf{j} + 0\symbf{k}$
+
+$z_0 = 0.5 - 0.5\symbf{i} + 0\symbf{j} + 0\symbf{k}$
+
+* Implementation
+
+** Quaternion Multiplication
+
+#+BEGIN_SRC python -n :eval no
+def qMult(p, q):
+    r = Quat(
+        p.r*q.r – p.i*q.i – p.j*q.j - p.k*q.k,
+        p.r*q.i + p.i*q.r + p.j*q.k - p.k*q.j,
+        p.r*q.j – p.i*q.k + p.j*q.r + p.j*q.i,
+        p.r*q.k + p.i*q.j – p.j*q.i + p.k*q.r
+    )
+    return r
+#+END_SRC
+
+* Implementation
+
+** Quaternion Square
+
+#+BEGIN_SRC python -n :eval no
+def qSquare(q):
+    r = Quat(
+        q.r*q.r – q.i*q.i – q.j*q.j - q.k*q.k,
+        2*q.r*q.i,
+        2*q.r*q.j,
+        2*q.r*q.k
+    )
+    return r
+#+END_SRC
+
+* Implementation
+
+** Quaternion Add
+
+#+BEGIN_SRC python -n :eval no
+def qAdd(p, q):
+    r = Quat(
+        p.r + q.r,
+        p.i + q.i,
+        p.j + q.j,
+        p.k + q.k
+    )
+    return r
+#+END_SRC
+
+* Implementation
+
+** Iteration
+
+#+BEGIN_SRC python -n :eval no
+N = 12
+B = 16
+c = Quat(-0.2, 0.4, -0.4, -0.4)
+def iterate(z):
+    for n in range(N):
+        z = z*z + c
+        if abs(z) > B: break
+    return n
+#+END_SRC
+
+* Raytracing
+
+* Ray Marching
+
+* Normal Estimation
+
+* Hypercomplex Iterative Fractals
+
+**  Hypercomplex Juila Set Example :BMCOL:
+:PROPERTIES:
+    :BEAMER_col: 0.55
+    :BEAMER_env: block
+:END:
+
+- Defined by iterative function in 4D Quaternion space
+
+** Hypercomplex Julia Set :BMCOL:
+:PROPERTIES:
+    :BEAMER_col: 0.45
+:END:
+
+#+ATTR_LATEX: :center yes :width 0.95\textwidth
+[[./Figs/Fig_1v2.png]]
+
+* Conclusion
+
+#+LATEX: %\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
+
+* References
+:PROPERTIES:
+    :BEAMER_opt: allowframebreaks,label=
+ :END:
+#+LATEX: \nocite{*}
+#+LATEX: \bibliography{sources}
+#+LATEX: \bibliographystyle{alpha}
