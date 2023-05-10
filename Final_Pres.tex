@@ -1,4 +1,4 @@
-% Created 2023-05-10 Wed 12:04
+% Created 2023-05-10 Wed 16:17
 % Intended LaTeX compiler: pdflatex
 \documentclass[aspectratio=169,t]{beamer}
 \usepackage[utf8]{inputenc}
@@ -19,8 +19,9 @@
 \DeclarePairedDelimiter\abs{\lvert}{\rvert} % ABS: abs{}
 \usetheme{focus}
 \author{Samuel J Monson}
-\date{2023-03-07}
+\date{2023-05-16}
 \title{Complex and Hypercomplex \\ Iterative Methods}
+\institute{Seattle Univerisity}
 \definecolor{main}{HTML}{93361f}
 \definecolor{background}{HTML}{D0D0D0}
 \setmathfont{Fira Math}
@@ -38,34 +39,34 @@
 \begin{frame}
 \maketitle
 \end{frame}
-\begin{frame}[label={sec:org197d34e}]{Iteration}
-\begin{definition}[Function Iteration]\label{sec:org9c674fc}
+\begin{frame}[label={sec:org04a8b4a}]{Iteration}
+\begin{definition}[Function Iteration]\label{sec:orgd593e8f}
 \(f^0 := \symbf{I}\)
 
 \(f^{k+1} := f \circ f^k\)
 \end{definition}
 
-\begin{exampleblock}{Example}\label{sec:orgc1b4f0d}
+\begin{exampleblock}<2->{Example}\label{sec:orga936042}
 Given \(f(x) = x + 1\),
 
 \begin{align*}
-    \only<2->{f^0(x) & = x} \\
-    \only<3->{f^1(x) & = x + 1} \\
-    \only<4->{f^2(x) & = (x + 1) + 1}
+    \onslide<3->{f^0(x) & = x \\}
+    \onslide<4->{f^1(x) & = x + 1 \\}
+    \onslide<5->{f^2(x) & = (x + 1) + 1}
 \end{align*}
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}[label={sec:org9e152a1}]{Complex Dynamics}
+\begin{frame}[label={sec:org4643947}]{Complex Dynamics}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
-\begin{definition}[Dynamical System]\label{sec:org56dd4b0}
+\begin{definition}[Dynamical System]\label{sec:orga97a3aa}
 A system that enacts rules on a set of variables to produce a state.
 \end{definition}
 \end{column}
 
 \begin{column}{0.5\columnwidth}
-\begin{definition}[Complex Dynamics]\label{sec:orgbf27de6}
+\begin{definition}[Complex Dynamics]\label{sec:org7e2654d}
 The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{definition}
 \end{column}
@@ -73,15 +74,41 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{frame}
 
 
-\begin{frame}[label={sec:org4d7d28f}]{Complex Numbers}
-\begin{definition}[Complex Numbers]\label{sec:org4596063}
+\begin{frame}[label={sec:org94b4414}]{Complex Numbers}
+\begin{definition}[Complex Numbers]\label{sec:org1cdb62d}
 \(\symbf{i}^2 = -1\)
 
 \(\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}\)
 \end{definition}
+
+\begin{columns}
+\begin{column}{0.5\columnwidth}
+\begin{block}<2->{Addition}
+\begin{itemize}
+\item<2-> Let \(a,b,x,y \in \symbb{R}\),
+\end{itemize}
+\begin{align*}
+    \onslide<3->{(a + b\symbf{i}) + (x + y\symbf{i})} \onslide<4->{& = (a + x) + (b + y)\symbf{i}}
+\end{align*}
+\end{block}
+\end{column}
+
+\begin{column}{0.5\columnwidth}
+\begin{block}<5->{Multiplication}
+\begin{itemize}
+\item<5-> Let \(a,b,x,y \in \symbb{R}\),
+\end{itemize}
+\begin{align*}
+    \onslide<6->{(a + b\symbf{i}) \times (x + y\symbf{i})} \onslide<7->{& = ax + ay\symbf{i} + bx\symbf{i} + by\symbf{i}^2 \\}
+    \onslide<8->{& = (ax - by) + (ay + bx)\symbf{i}}
+\end{align*}
+\end{block}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org4ab5998}]{Complex Iteration}
+
+\begin{frame}[label={sec:orgdb5219d}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -109,7 +136,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org788f180}]{Complex Iteration}
+\begin{frame}[label={sec:org0c70a62}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -137,7 +164,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgb5d6dae}]{Group Activity}
+\begin{frame}[label={sec:org6a9dae3}]{Group Activity}
 \(f(z) = z^2 + c\)
 
 \begin{columns}
@@ -159,7 +186,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org83b3505}]{Group Activity (Easier)}
+\begin{frame}[label={sec:org370c148}]{Group Activity (Easier)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -189,7 +216,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org9f46756}]{Group Activity (Harder)}
+\begin{frame}[label={sec:orgee8247c}]{Group Activity (Harder)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -219,7 +246,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgf1f1b04},fragile]{Implementation}
+\begin{frame}[label={sec:org8492a5d},fragile]{Implementation}
  \begin{block}{Iteration}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 N = 128
@@ -234,7 +261,7 @@ def iterate(z):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org05a310b}]{Iterative Fractals}
+\begin{frame}[label={sec:orgbb74000}]{Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Complex Juila Set Example}
@@ -249,16 +276,18 @@ Defined by iterative function in complex space
 \end{column}
 
 \begin{column}{0.45\columnwidth}
-\begin{center}
-\includegraphics[width=0.95\textwidth]{./Figs/Fig_2.png}
-\end{center}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.80\textwidth]{./Figs/Fig_2v2.png}
+\caption{\(f(z) = z^2 -0.675 - 0.112\symbf{i}\)}
+\end{figure}
 \end{column}
 \end{columns}
 \end{frame}
 
 
-\begin{frame}[label={sec:org165ee9e}]{Hypercomplex (Quaternions)}
-\begin{definition}[Quaternion]\label{sec:org0ab27ed}
+\begin{frame}[label={sec:org2d45e06}]{Hypercomplex (Quaternions)}
+\begin{definition}[Quaternion]\label{sec:org1be5e62}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
 \(\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right\} \in \symbb{H}\)
@@ -297,7 +326,7 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org14292ca}]{Hypercomplex (Quaternions)}
+\begin{frame}[label={sec:orgb974f45}]{Hypercomplex (Quaternions)}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
 \(p = d + a\symbf{i} + b\symbf{j} + c\symbf{k}\)
@@ -308,14 +337,18 @@ Defined by iterative function in complex space
     p \times q & = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\
     & + aw\symbf{i} + ax\symbf{i}^2 + ay\symbf{ij} + az\symbf{ik} \\
     & + bw\symbf{j} + bx\symbf{ji} + by\symbf{j}^2 + bz\symbf{jk} \\
-    & + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2
+    & + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2 \\
+    \onslide<2->{& = dw - ax - by - cz} \\
+    \onslide<2->{& + dx\symbf{i} + aw\symbf{i} + bz\symbf{i} - cy\symbf{i}} \\
+    \onslide<2->{& + dy\symbf{j} - az\symbf{j} + bw\symbf{j} + cx\symbf{j}} \\
+    \onslide<2->{& + dz\symbf{k} + ay\symbf{k} - bx\symbf{k} + cw\symbf{k}}
 \end{align*}
 \end{frame}
 
-\begin{frame}[label={sec:orgc3606f6}]{Hypercomplex (Quaternions)}
+\begin{frame}[label={sec:org10af6d6}]{Hypercomplex (Quaternions)}
 \end{frame}
 
-\begin{frame}[label={sec:orgd1b4a95}]{Group Activity}
+\begin{frame}[label={sec:orge65b554}]{Group Activity}
 \(f(z) = z^2 + q\)
 
 \begin{columns}
@@ -337,7 +370,7 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org96ffbc5},fragile]{Implementation}
+\begin{frame}[label={sec:org1063c3e},fragile]{Implementation}
  \begin{block}{Quaternion Multiplication}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qMult(p, q):
@@ -352,7 +385,7 @@ def qMult(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org77b3ca5},fragile]{Implementation}
+\begin{frame}[label={sec:orgd0ed24d},fragile]{Implementation}
  \begin{block}{Quaternion Square}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qSquare(q):
@@ -367,7 +400,7 @@ def qSquare(q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org397cf0d},fragile]{Implementation}
+\begin{frame}[label={sec:orgbc0761a},fragile]{Implementation}
  \begin{block}{Quaternion Add}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qAdd(p, q):
@@ -382,7 +415,7 @@ def qAdd(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org375b5fd},fragile]{Implementation}
+\begin{frame}[label={sec:org2788d48},fragile]{Implementation}
  \begin{block}{Iteration}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 N = 12
@@ -397,16 +430,16 @@ def iterate(z):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgc997dfb}]{Raytracing}
+\begin{frame}[label={sec:orgcf048d3}]{Raytracing}
 \end{frame}
 
-\begin{frame}[label={sec:org7aa7ee5}]{Ray Marching}
+\begin{frame}[label={sec:orgc3ff9d4}]{Ray Marching}
 \end{frame}
 
-\begin{frame}[label={sec:org96a6846}]{Normal Estimation}
+\begin{frame}[label={sec:orgd5f0cec}]{Normal Estimation}
 \end{frame}
 
-\begin{frame}[label={sec:org5d951ac}]{Hypercomplex Iterative Fractals}
+\begin{frame}[label={sec:org52a37c3}]{Hypercomplex Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Hypercomplex Juila Set Example}
@@ -417,14 +450,16 @@ def iterate(z):
 \end{column}
 
 \begin{column}{0.45\columnwidth}
-\begin{center}
-\includegraphics[width=0.95\textwidth]{./Figs/Fig_1v2.png}
-\end{center}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{./Figs/Fig_1v2.png}
+\caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\)}
+\end{figure}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orga157e88}]{Conclusion}
+\begin{frame}[label={sec:org281ddd0}]{Conclusion}
 %\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
 \end{frame}
 
@@ -432,5 +467,13 @@ def iterate(z):
 \nocite{*}
 \bibliography{sources}
 \bibliographystyle{alpha}
+\end{frame}
+
+\begin{frame}[label={sec:orgb8c1222}]{Link to Slides}
+\begin{center}
+\url{https://github.com/scrufulufugus/senior-synthesis}
+
+\includegraphics[height=0.70\textheight]{./Figs/qr.png}
+\end{center}
 \end{frame}
 \end{document}
