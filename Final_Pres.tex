@@ -1,4 +1,4 @@
-% Created 2023-05-10 Wed 16:17
+% Created 2023-05-11 Thu 19:36
 % Intended LaTeX compiler: pdflatex
 \documentclass[aspectratio=169,t]{beamer}
 \usepackage[utf8]{inputenc}
@@ -17,6 +17,7 @@
 \usepackage{animate}
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert} % ABS: abs{}
+\newcommand{\mcb}[2]{\colorbox{#1}{$\displaystyle #2$}}
 \usetheme{focus}
 \author{Samuel J Monson}
 \date{2023-05-16}
@@ -39,43 +40,41 @@
 \begin{frame}
 \maketitle
 \end{frame}
-\begin{frame}[label={sec:org04a8b4a}]{Iteration}
-\begin{definition}[Function Iteration]\label{sec:orgd593e8f}
+\section{Introduction}
+\label{sec:org6c7cd28}
+
+\begin{frame}[label={sec:org9b4ceb0}]{Iteration}
+\begin{definition}[Function Iteration]\label{sec:org73f8cbb}
 \(f^0 := \symbf{I}\)
 
 \(f^{k+1} := f \circ f^k\)
 \end{definition}
 
-\begin{exampleblock}<2->{Example}\label{sec:orga936042}
+\begin{exampleblock}<2->{Example}\label{sec:org63bde76}
 Given \(f(x) = x + 1\),
 
 \begin{align*}
     \onslide<3->{f^0(x) & = x \\}
     \onslide<4->{f^1(x) & = x + 1 \\}
-    \onslide<5->{f^2(x) & = (x + 1) + 1}
+    \onslide<5->{f^2(x) & = (x + 1) + 1 \\}
+    \onslide<6->{f^3(x) & = \left((x + 1) + 1\right) + 1}
 \end{align*}
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}[label={sec:org4643947}]{Complex Dynamics}
-\begin{columns}
-\begin{column}{0.5\columnwidth}
-\begin{definition}[Dynamical System]\label{sec:orga97a3aa}
+\begin{frame}[label={sec:orgb6383fd}]{Complex Dynamics}
+\begin{definition}[Dynamical System]\label{sec:org1e8bfce}
 A system that enacts rules on a set of variables to produce a state.
 \end{definition}
-\end{column}
 
-\begin{column}{0.5\columnwidth}
-\begin{definition}[Complex Dynamics]\label{sec:org7e2654d}
-The study of \uline{Dynamical Systems} defined by complex iterative functions.
+\begin{definition}<2->[Complex Dynamics]\label{sec:org2f84c24}
+The study of \uline{dynamical systems} defined by complex functions.
 \end{definition}
-\end{column}
-\end{columns}
 \end{frame}
 
 
-\begin{frame}[label={sec:org94b4414}]{Complex Numbers}
-\begin{definition}[Complex Numbers]\label{sec:org1cdb62d}
+\begin{frame}[label={sec:org6b34434}]{Complex Numbers}
+\begin{definition}[Complex Numbers]\label{sec:orgfefaf5a}
 \(\symbf{i}^2 = -1\)
 
 \(\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}\)
@@ -107,8 +106,10 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
+\section{Complex Iterative Methods}
+\label{sec:org7a82696}
 
-\begin{frame}[label={sec:orgdb5219d}]{Complex Iteration}
+\begin{frame}[label={sec:orgc355175}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -122,21 +123,22 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \item \(f^1(z) \only<2>{= \left( \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i} \right)^2 = \left( \frac{1}{\sqrt{2}} \right)^2 - \left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}\right)^2 + \left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}\right)^2 \symbf{i}} = \symbf{i}\)
 \item \(f^2(z) = -1\)
 \item \(f^3(z) = 1\)
+\item \(f^4(z) = f^5(z) = f^6(z) = 1\)
 \end{itemize}
 \end{column}
 
 \begin{column}{0.5\columnwidth}
 \begin{center}
-\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_1-1.png}
-\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_1-2.png}
-\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_1-3.png}
-\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_1-4.png}
+\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_1-0.png}
+\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_1-1.png}
+\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_1-2.png}
+\includegraphics<4->[width=.9\linewidth]{Figs/exports/Iter_1-3.png}
 \end{center}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org0c70a62}]{Complex Iteration}
+\begin{frame}[label={sec:org3a0ce9a}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -147,24 +149,30 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 
 \begin{itemize}[<+->]
 \item \(f^0(z) = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}} \symbf{i}\)
-\item \(f^1(z) \only<2>{= -\frac{1}{10} + \left(1 - \frac{1}{10}\right)\symbf{i}} = -0.9 - 0.28\symbf{i}\)
-\item \(f^2(z) = 0.6316+0.404\symbf{i}\)
-\item \(f^3(z) \approx 0.13570256 + 0.4103328\symbf{i}\)
+\item \(f^1(z) \only<2>{= -\frac{1}{10} + \left(1 - \frac{1}{10}\right)\symbf{i}} = -0.1 + 0.9\symbf{i}\)
+\item \(f^2(z) = -0.9-0.28\symbf{i}\)
+\item \(f^3(z) = 0.6316+0.404\symbf{i}\)
+\item \(f^4(z) \approx 0.13570256+0.4103328\symbf{i}\)
+\item \(f^5(z) \approx -0.24995782+0.01136642\symbf{i}\)
+\item \(f^6(z) \approx -0.03765028-0.10568225\symbf{i}\)
 \end{itemize}
 \end{column}
 
 \begin{column}{0.5\columnwidth}
 \begin{center}
-\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_2-1.png}
-\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_2-2.png}
-\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_2-3.png}
-\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_2-4.png}
+\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_2-0.png}
+\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_2-1.png}
+\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_2-2.png}
+\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_2-3.png}
+\includegraphics<5>[width=.9\linewidth]{Figs/exports/Iter_2-4.png}
+\includegraphics<6>[width=.9\linewidth]{Figs/exports/Iter_2-5.png}
+\includegraphics<7->[width=.9\linewidth]{Figs/exports/Iter_2-6.png}
 \end{center}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org6a9dae3}]{Group Activity}
+\begin{frame}[label={sec:org137cee5}]{Group Activity}
 \(f(z) = z^2 + c\)
 
 \begin{columns}
@@ -186,7 +194,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org370c148}]{Group Activity (Easier)}
+\begin{frame}[label={sec:org1937aea}]{Group Activity (Easier)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -198,25 +206,27 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{block}
 
 \begin{itemize}[<+->]
+\item \(f^0(z) = 0.5\)
 \item \(f^1(z) = 0.05\)
 \item \(f^2(z) = -0.1975\)
 \item \(f^3(z) = -0.16099375\)
-\item \(f^4(z) = -0.1740810125\)
+\item \(f^4(z) \approx -0.1740810125\)
 \end{itemize}
 \end{column}
 
 \begin{column}{0.5\columnwidth}
 \begin{center}
-\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_3-1.png}
-\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_3-2.png}
-\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_3-3.png}
-\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_3-4.png}
+\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_3-0.png}
+\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_3-1.png}
+\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_3-2.png}
+\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_3-3.png}
+\includegraphics<5->[width=.9\linewidth]{Figs/exports/Iter_3-4.png}
 \end{center}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgee8247c}]{Group Activity (Harder)}
+\begin{frame}[label={sec:orgb0391f2}]{Group Activity (Harder)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -228,6 +238,7 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 \end{block}
 
 \begin{itemize}[<+->]
+\item \(f^0(z) = 0.5 - 0.5 \symbf{i}\)
 \item \(f^1(z) = -0.2 - 0.1 \symbf{i}\)
 \item \(f^2(z) = -0.17 + 0.44 \symbf{i}\)
 \item \(f^3(z) = -0.3647 + 0.2504 \symbf{i}\)
@@ -237,21 +248,24 @@ The study of \uline{Dynamical Systems} defined by complex iterative functions.
 
 \begin{column}{0.5\columnwidth}
 \begin{center}
-\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_4-1.png}
-\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_4-2.png}
-\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_4-3.png}
-\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_4-4.png}
+\includegraphics<1>[width=.9\linewidth]{Figs/exports/Iter_4-0.png}
+\includegraphics<2>[width=.9\linewidth]{Figs/exports/Iter_4-1.png}
+\includegraphics<3>[width=.9\linewidth]{Figs/exports/Iter_4-2.png}
+\includegraphics<4>[width=.9\linewidth]{Figs/exports/Iter_4-3.png}
+\includegraphics<5->[width=.9\linewidth]{Figs/exports/Iter_4-4.png}
 \end{center}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org8492a5d},fragile]{Implementation}
- \begin{block}{Iteration}
+\begin{frame}[label={sec:org62675ac},fragile]{Implementation}
+ \begin{columns}
+\begin{column}{0.50\columnwidth}
+\begin{block}{Iteration (Python)}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 N = 128
 B = 16
-c = complex(-0.675, -0.112)
+c = complex(-0.2, 0.4)
 def iterate(z):
     for n in range(N):
         z = z*z + c
@@ -259,9 +273,17 @@ def iterate(z):
     return n
 \end{lstlisting}
 \end{block}
+\end{column}
+
+\begin{column}{0.45\columnwidth}
+\begin{center}
+\includegraphics<2->[width=.9\linewidth]{Figs/exports/Iter_4-128.png}
+\end{center}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgbb74000}]{Iterative Fractals}
+\begin{frame}[label={sec:org13284c0}]{Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Complex Juila Set Example}
@@ -285,9 +307,14 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
+\section{Hypercomplex Numbers}
+\label{sec:orgf4b76ec}
 
-\begin{frame}[label={sec:org2d45e06}]{Hypercomplex (Quaternions)}
-\begin{definition}[Quaternion]\label{sec:org1be5e62}
+\begin{frame}[label={sec:orga49fadc}]{Quaternions}
+\end{frame}
+
+\begin{frame}[label={sec:org7254f52}]{Quaternions}
+\begin{definition}[Quaternion]\label{sec:orga9d9bdf}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
 \(\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right\} \in \symbb{H}\)
@@ -295,82 +322,91 @@ Defined by iterative function in complex space
 
 \begin{columns}
 \begin{column}{0.50\columnwidth}
-\begin{itemize}[<+->]
-\item \(\symbf{i}^2 = \symbf{ijk}\)
 \begin{itemize}
-\item \(\symbf{i}^{-1} \symbf{i}^2 = \symbf{i}^{-1} \symbf{ijk}\)
-\item \(\symbf{i} = \symbf{jk}\)
-\end{itemize}
-\item \(\symbf{k}^2 = \symbf{ijk}\)
-\begin{itemize}
-\item \(\symbf{k}^2 \symbf{k}^{-1} = \symbf{ijk} \symbf{k}^{-1}\)
-\item \(\symbf{k} = \symbf{ij}\)
-\end{itemize}
-\item \(\symbf{j} = \symbf{ki}\)
+\item<2-> \(\symbf{i}^2 = \symbf{ijk}\)
+
+{\centering
+$ \displaystyle
+\begin{aligned}
+  \symbf{i}^{-1} \symbf{i}^2 & = \symbf{i}^{-1} \symbf{ijk} \\
+  \symbf{i} & = \symbf{jk}
+\end{aligned}
+$
+\par}
+\item<3-> \(\symbf{k}^2 = \symbf{ijk}\)
+
+{\centering
+$ \displaystyle
+\begin{aligned}
+  \symbf{k}^2 \symbf{k}^{-1} & = \symbf{ijk} \symbf{k}^{-1} \\
+  \symbf{k} & = \symbf{ij}
+\end{aligned}
+$
+\par}
+\item<3-> \(\symbf{j} = \symbf{ki}\)
 \end{itemize}
 \end{column}
 
 \begin{column}{0.50\columnwidth}
-\begin{itemize}[<+->]
-\item \(\symbf{i} = \symbf{jk}\)
 \begin{itemize}
-\item \(\symbf{ji} = \symbf{jjk}\)
-\item \(\symbf{ji} = \symbf{j}^2 \symbf{k}\)
-\item \(\symbf{ji} = -\symbf{k}\)
-\item \(-\symbf{k} = \symbf{ji}\)
-\end{itemize}
-\item \(-\symbf{i} = \symbf{kj}\)
-\item \(-\symbf{j} = \symbf{ik}\)
+\item<4-> \(\symbf{i} = \symbf{jk}\)
+
+{\centering
+$ \displaystyle
+\begin{aligned}
+  \symbf{ji} & = \symbf{jjk} \\
+  \symbf{ji} & = \symbf{j}^2 \symbf{k} \\
+  \symbf{ji} & = -\symbf{k} \\
+  -\symbf{k} & = \symbf{ji}
+\end{aligned}
+$
+\par}
+\item<5-> \(-\symbf{i} = \symbf{kj}\)
+\item<5-> \(-\symbf{j} = \symbf{ik}\)
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgb974f45}]{Hypercomplex (Quaternions)}
+\begin{frame}[label={sec:org1117fc6}]{}
+\begin{block}{Let,}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
 \(p = d + a\symbf{i} + b\symbf{j} + c\symbf{k}\)
 
 \(q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}\)
+\end{block}
 
 \begin{align*}
-    p \times q & = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\
-    & + aw\symbf{i} + ax\symbf{i}^2 + ay\symbf{ij} + az\symbf{ik} \\
-    & + bw\symbf{j} + bx\symbf{ji} + by\symbf{j}^2 + bz\symbf{jk} \\
-    & + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2 \\
-    \onslide<2->{& = dw - ax - by - cz} \\
-    \onslide<2->{& + dx\symbf{i} + aw\symbf{i} + bz\symbf{i} - cy\symbf{i}} \\
-    \onslide<2->{& + dy\symbf{j} - az\symbf{j} + bw\symbf{j} + cx\symbf{j}} \\
-    \onslide<2->{& + dz\symbf{k} + ay\symbf{k} - bx\symbf{k} + cw\symbf{k}}
+    p \times q \only<1-2>{& = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\}
+    \only<1-2>{& + aw\symbf{i} + ax\symbf{i}^2 + ay\symbf{ij} + az\symbf{ik} \\}
+    \only<1-2>{& + bw\symbf{j} + bx\symbf{ji} + by\symbf{j}^2 + bz\symbf{jk} \\}
+    \only<1-2>{& + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2 \\}
+    \only<2-3>{& = dw - ax - by - cz\only<4->{+} \\}
+    \only<2-3>{& + dx\symbf{i} + aw\symbf{i} + bz\symbf{i} - cy\symbf{i} \\}
+    \only<2-3>{& + dy\symbf{j} - az\symbf{j} + bw\symbf{j} + cx\symbf{j} \\}
+    \only<2-3>{& + dz\symbf{k} + ay\symbf{k} - bx\symbf{k} + cw\symbf{k} \\}
+    \onslide<4->{& = dw - \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \cdot \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle \\}
+    \onslide<4->{& + \left\langle\begin{matrix}}
+    \onslide<4->{dx + aw + bz - cy \\}
+    \onslide<4->{dy - az + bw + cx \\}
+    \onslide<4->{dz + ay - bx + cw}
+    \onslide<4->{\end{matrix}\right\rangle}
+    \onslide<4->{\cdot \left\langle\begin{matrix} \symbf{i} \\ \symbf{j} \\ \symbf{k} \end{matrix}\right\rangle \\}
+    \onslide<5->{& = dw - \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \cdot \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle + \left(d \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle + w \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle + \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \times \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle \right) \cdot \left\langle\begin{smallmatrix} \symbf{i}\\\symbf{j}\\\symbf{k} \end{smallmatrix}\right\rangle}
 \end{align*}
 \end{frame}
 
-\begin{frame}[label={sec:org10af6d6}]{Hypercomplex (Quaternions)}
+\begin{frame}[label={sec:org579cebb}]{Iteration}
+\begin{center}
+\includegraphics[height=0.70\textheight]{Figs/exports/Iter_5.png}
+\end{center}
 \end{frame}
 
-\begin{frame}[label={sec:orge65b554}]{Group Activity}
-\(f(z) = z^2 + q\)
+\section{Hypercomplex Iterative Methods}
+\label{sec:org8116adb}
 
-\begin{columns}
-\begin{column}{0.5\columnwidth}
-\begin{block}{Easier}
-\(q = -0.2 + 0.4\symbf{i} + 0\symbf{j} + 0\symbf{k}\)
-
-\(z_0 = 0.5 - 0.5\symbf{i} + 0\symbf{j} + 0\symbf{k}\)
-\end{block}
-\end{column}
-
-\begin{column}{0.5\columnwidth}
-\begin{block}{Harder}
-\(q = -0.2 + 0.4\symbf{i} + 0\symbf{j} + 0\symbf{k}\)
-
-\(z_0 = 0.5 - 0.5\symbf{i} + 0\symbf{j} + 0\symbf{k}\)
-\end{block}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[label={sec:org1063c3e},fragile]{Implementation}
+\begin{frame}[label={sec:org24ad9e4},fragile]{Implementation}
  \begin{block}{Quaternion Multiplication}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qMult(p, q):
@@ -385,7 +421,7 @@ def qMult(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgd0ed24d},fragile]{Implementation}
+\begin{frame}[label={sec:org5c6721f},fragile]{Implementation}
  \begin{block}{Quaternion Square}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qSquare(q):
@@ -400,7 +436,7 @@ def qSquare(q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgbc0761a},fragile]{Implementation}
+\begin{frame}[label={sec:orgc9cf3e2},fragile]{Implementation}
  \begin{block}{Quaternion Add}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def qAdd(p, q):
@@ -415,7 +451,7 @@ def qAdd(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org2788d48},fragile]{Implementation}
+\begin{frame}[label={sec:org3cb6bbd},fragile]{Implementation}
  \begin{block}{Iteration}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 N = 12
@@ -430,16 +466,19 @@ def iterate(z):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgcf048d3}]{Raytracing}
+\begin{frame}[label={sec:org6b96eff}]{Ploting}
 \end{frame}
 
-\begin{frame}[label={sec:orgc3ff9d4}]{Ray Marching}
+\begin{frame}[label={sec:orga817103}]{Raytracing}
 \end{frame}
 
-\begin{frame}[label={sec:orgd5f0cec}]{Normal Estimation}
+\begin{frame}[label={sec:org8b95f81}]{Ray Marching}
 \end{frame}
 
-\begin{frame}[label={sec:org52a37c3}]{Hypercomplex Iterative Fractals}
+\begin{frame}[label={sec:orgb721ea0}]{Normal Estimation}
+\end{frame}
+
+\begin{frame}[label={sec:orga4d6b64}]{Hypercomplex Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Hypercomplex Juila Set Example}
@@ -459,8 +498,10 @@ def iterate(z):
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org281ddd0}]{Conclusion}
+\begin{frame}[label={sec:org4bdb8a3}]{Conclusion}
 %\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
+\setcounter{tocdepth}{2}
+\tableofcontents
 \end{frame}
 
 \begin{frame}[allowframebreaks,label=]{References}
@@ -469,7 +510,7 @@ def iterate(z):
 \bibliographystyle{alpha}
 \end{frame}
 
-\begin{frame}[label={sec:orgb8c1222}]{Link to Slides}
+\begin{frame}[label={sec:orge418bfa}]{Questions?}
 \begin{center}
 \url{https://github.com/scrufulufugus/senior-synthesis}
 
