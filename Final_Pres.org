@@ -9,7 +9,7 @@
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
-#+OPTIONS:   H:2 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   H:2 num:t toc:2 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:nil toc:2 ltoc:t mouse:underline buttons:0 path:https://orgmode.org/org-info.js
 #+HTML_LINK_UP:
@@ -41,33 +41,48 @@
 #+BEAMER_THEME: focus
 #+BEAMER_HEADER: \definecolor{main}{HTML}{93361f}
 #+BEAMER_HEADER: \definecolor{background}{HTML}{D0D0D0}
+#+BEAMER_HEADER: \definecolor{royalblue}{HTML}{4169e1}
+
+#+BEAMER_HEADER: \definecolor{forestgreen}{HTML}{228b22}
 
 *** Use Listings instead of verbatim
 #+LATEX_HEADER: \usepackage{listings}
 
 *** Fix Captions
-#+LATEX_HEADER: \setbeamerfont{caption}{size=\footnotesize}
+#+LATEX_HEADER: \usepackage{ccicons}
+#+LATEX_HEADER: \usepackage[margin=3pt,font=scriptsize,labelfont=bf]{caption}
 
 *** Animate
 #+LATEX_HEADER: \usepackage{animate}
+
+*** SVG
+#+LATEX_HEADER: \usepackage{svg}
 
 *** Define abs
 #+LATEX_HEADER: \usepackage{mathtools}
 #+LATEX_HEADER: \DeclarePairedDelimiter\abs{\lvert}{\rvert} % ABS: abs{}
 
-*** Steal some missing glyphs
+*** Configure fonts
 #+BEAMER_HEADER: \setmathfont{Fira Math}
-#+BEAMER_HEADER: \setmathfont{DejaVu Math TeX Gyre}[range=\vysmwhtcircle]
+#+BEAMER_HEADER: \setmathfont{DejaVu Math TeX Gyre}[range={\vysmwhtcircle,\times,\vdots}]
 #+BEAMER_HEADER: \setmonofont{Hack}
 
-
-*** Highlight
-#+LATEX_HEADER: \newcommand{\mcb}[2]{\colorbox{#1}{$\displaystyle #2$}}
+*** Environments
+**** Angled Small Vector
+#+LATEX_HEADER: \newenvironment{asvector}{\left\langle\begin{smallmatrix}}{\end{smallmatrix}\right\rangle}
+**** Angled Vector
+#+LATEX_HEADER: \newenvironment{avector}{\left\langle\begin{matrix}}{\end{matrix}\right\rangle}
+**** Tight Align
+#+LATEX_HEADER: \newenvironment{talign*}{\centering $\displaystyle\begin{aligned}}{\end{aligned}$\par}
 
 ** Python Config
 
 #+NAME: plt-fig-preamble
 #+BEGIN_SRC python :results file :exports none :eval no
+from os.path import exists
+# TODO: Come up with a better method of skipping graph gen
+if exists(path):
+    return path
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
@@ -85,6 +100,7 @@ mpl.rcParams['font.sans-serif'].insert(0,'Fira Math')
 mpl.rcParams['font.size'] = 14.0
 plt.gca().set_aspect('equal')
 plt.grid(True)
+plt.rcParams['axes.grid'] = True
 #+END_SRC
 
 #+NAME: plt-fig-export
@@ -109,7 +125,47 @@ plt.xlabel('Real')
 plt.ylabel('Imag')
 #+END_SRC
 
-* Introduction
+* Introduction :B_ignoreheading:
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+
+** Definitions
+
+*** Dynamical System
+:PROPERTIES:
+    :BEAMER_env: definition
+:END:
+
+A system that enacts rules on a set of variables to produce a state.
+
+*** Complex Dynamics
+:PROPERTIES:
+    :BEAMER_env: definition
+    :BEAMER_act: <2->
+:END:
+
+The study of _dynamical systems_ defined by complex functions.
+
+*** Iterative Method
+:PROPERTIES:
+    :BEAMER_env: definition
+    :BEAMER_act: <3->
+:END:
+
+A sequence where each value in the sequence is defined by the previous value.
+
+*** Notes :noexport:
+
+...
+
+To review, a Dynamical System is a system that enacts rules on a set of variables to produce a state.
+
+Complex Dynamics is the study of dynamical systems that operate on complex iterative functions.
+
+The main goals of my research have been to explore the proprieties and connections of complex dynamics, gain an understanding of hypercomplex numbers, and to explore examples of hypercomplex dynamics.
+
+* Iteration
 
 ** Iteration
 
@@ -130,40 +186,13 @@ $f^{k+1} := f \circ f^k$
 
 Given $f(x) = x + 1$,
 
-\begin{align*}
+\begin{talign*}
     \onslide<3->{f^0(x) & = x \\}
     \onslide<4->{f^1(x) & = x + 1 \\}
     \onslide<5->{f^2(x) & = (x + 1) + 1 \\}
-    \onslide<6->{f^3(x) & = \left((x + 1) + 1\right) + 1}
-\end{align*}
-
-** Complex Dynamics
-
-*** Dynamical System
-:PROPERTIES:
-    :BEAMER_env: definition
-:END:
-
-A system that enacts rules on a set of variables to produce a state.
-
-*** Complex Dynamics
-:PROPERTIES:
-    :BEAMER_env: definition
-    :BEAMER_act: <2->
-:END:
-
-The study of _dynamical systems_ defined by complex functions.
-
-*** Notes :noexport:
-
-...
-
-To review, a Dynamical System is a system that enacts rules on a set of variables to produce a state.
-
-Complex Dynamics is the study of dynamical systems that operate on complex iterative functions.
-
-The main goals of my research have been to explore the proprieties and connections of complex dynamics, gain an understanding of hypercomplex numbers, and to explore examples of hypercomplex dynamics.
-
+    \onslide<6->{f^3(x) & = \left((x + 1) + 1\right) + 1 \\}
+    \onslide<6->{\vdots}
+\end{talign*}
 
 ** Complex Numbers
 
@@ -183,10 +212,12 @@ $\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}$
     :BEAMER_act: <2->
 :END:
 
-- @@b:<2->@@ Let $a,b,x,y \in \symbb{R}$,
-\begin{align*}
+Let $a,b,x,y \in \symbb{R}$,
+
+#+LATEX: \vspace{\baselineskip}
+\begin{talign*}
     \onslide<3->{(a + b\symbf{i}) + (x + y\symbf{i})} \onslide<4->{& = (a + x) + (b + y)\symbf{i}}
-\end{align*}
+\end{talign*}
 
 *** Multiplication
 :PROPERTIES:
@@ -195,11 +226,13 @@ $\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}$
     :BEAMER_act: <5->
 :END:
 
-- @@b:<5->@@ Let $a,b,x,y \in \symbb{R}$,
-\begin{align*}
-    \onslide<6->{(a + b\symbf{i}) \times (x + y\symbf{i})} \onslide<7->{& = ax + ay\symbf{i} + bx\symbf{i} + by\symbf{i}^2 \\}
+Let $a,b,x,y \in \symbb{R}$,
+
+#+LATEX: \vspace{\baselineskip}
+\begin{talign*}
+    \onslide<6->{(a + b\symbf{i}) \ast (x + y\symbf{i})} \onslide<7->{& = ax + ay\symbf{i} + bx\symbf{i} + by\symbf{i}^2 \\}
     \onslide<8->{& = (ax - by) + (ay + bx)\symbf{i}}
-\end{align*}
+\end{talign*}
 
 * Complex Iterative Methods
 
@@ -661,12 +694,12 @@ plt.plot(data.real, data.imag, 'o--', color='forestgreen')
 
 #+BEGIN_SRC python -n :eval no
 N = 128
-B = 16
+B = 4
 c = complex(-0.2, 0.4)
 def iterate(z):
     for n in range(N):
         z = z*z + c
-        if abs(z) > B: break
+        if abs(z) > B*B: break
     return n
 #+END_SRC
 
@@ -708,7 +741,7 @@ Defined by iterative function in complex space
 
 - $f_c (z) = z^2 + c$
 
-- $\left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} \in \symbb{C} \text{ as } k \to \infty\right\} \in K_c$
+- $\left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} > B \text{ as } k \to \infty\right\} \in K_c$
 
 *** Julia Set :BMCOL:
 :PROPERTIES:
@@ -729,9 +762,30 @@ The left side shows the function and rule that define the set. To simply the syn
 
 A point, $z_0$, is in the set if it stays bounded as we iterate infinite times; bounded means that the point does not go to infinity.
 
-* Hypercomplex Numbers
+* Quaternions
 
-** TODO Quaternions
+** Quaternions History
+:PROPERTIES:
+    :BEAMER_opt: b
+:END:
+
+*** Left
+:PROPERTIES:
+    :BEAMER_col: 0.50
+:END:
+
+#+CAPTION: Quaternion plaque on Brougham Bridge, Dublin @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Inscription_on_Broom_Bridge_(Dublin)_regarding_the_discovery_of_Quaternions_multiplication_by_Sir_William_Rowan_Hamilton.jpg][Wikipedia - Cone83]]
+#+ATTR_LATEX: :width 0.90\textwidth
+[[./Figs/Fig_3.jpg]]
+
+*** Right
+:PROPERTIES:
+    :BEAMER_col: 0.50
+:END:
+
+#+CAPTION: Portrait of Sir William Rowan Hamilton @@latex:\\@@ @@latex:\ccPublicDomainAlt@@ [[https://commons.wikimedia.org/wiki/File:William_Rowan_Hamilton_portrait_oval_combined.png][Wikipedia - Quibik]]
+#+ATTR_LATEX: :height 0.60\textheight
+[[./Figs/Fig_4.png]]
 
 ** Quaternions
 
@@ -751,24 +805,18 @@ $\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right
 
 - @@b:<2->@@ $\symbf{i}^2 = \symbf{ijk}$
 
-  #+LATEX: {\centering
-  #+LATEX: $ \displaystyle
-  \begin{aligned}
+  \begin{talign*}
     \symbf{i}^{-1} \symbf{i}^2 & = \symbf{i}^{-1} \symbf{ijk} \\
     \symbf{i} & = \symbf{jk}
-  \end{aligned}
-  #+LATEX: $
-  #+LATEX: \par}
+  \end{talign*}
+
 - @@b:<3->@@ $\symbf{k}^2 = \symbf{ijk}$
 
-  #+LATEX: {\centering
-  #+LATEX: $ \displaystyle
-  \begin{aligned}
+  \begin{talign*}
     \symbf{k}^2 \symbf{k}^{-1} & = \symbf{ijk} \symbf{k}^{-1} \\
     \symbf{k} & = \symbf{ij}
-  \end{aligned}
-  #+LATEX: $
-  #+LATEX: \par}
+  \end{talign*}
+
 - @@b:<3->@@ $\symbf{j} = \symbf{ki}$
 
 *** Proof
@@ -778,20 +826,17 @@ $\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right
 
 - @@b:<4->@@ $\symbf{i} = \symbf{jk}$
 
-  #+LATEX: {\centering
-  #+LATEX: $ \displaystyle
-  \begin{aligned}
+  \begin{talign*}
     \symbf{ji} & = \symbf{jjk} \\
     \symbf{ji} & = \symbf{j}^2 \symbf{k} \\
     \symbf{ji} & = -\symbf{k} \\
     -\symbf{k} & = \symbf{ji}
-  \end{aligned}
-  #+LATEX: $
-  #+LATEX: \par}
+  \end{talign*}
+
 - @@b:<5->@@ $-\symbf{i} = \symbf{kj}$
 - @@b:<5->@@ $-\symbf{j} = \symbf{ik}$
 
-** Hypercomplex (Quaternions)
+** Quaternion Multiplication
 :PROPERTIES:
     :BEAMER_env: fullframe
 :END:
@@ -807,31 +852,65 @@ $q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}$
 *** Equation :ignore:
 
 \begin{align*}
-    p \times q \only<1-2>{& = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\}
+    p \ast q \only<1-2>{& = dw + dx\symbf{i} + dy\symbf{j} + dz\symbf{k} \\}
     \only<1-2>{& + aw\symbf{i} + ax\symbf{i}^2 + ay\symbf{ij} + az\symbf{ik} \\}
     \only<1-2>{& + bw\symbf{j} + bx\symbf{ji} + by\symbf{j}^2 + bz\symbf{jk} \\}
     \only<1-2>{& + cw\symbf{k} + cx\symbf{ki} + cy\symbf{kj} + cz\symbf{k}^2 \\}
-    \only<2-3>{& = dw - ax - by - cz\only<4->{+} \\}
-    \only<2-3>{& + dx\symbf{i} + aw\symbf{i} + bz\symbf{i} - cy\symbf{i} \\}
-    \only<2-3>{& + dy\symbf{j} - az\symbf{j} + bw\symbf{j} + cx\symbf{j} \\}
-    \only<2-3>{& + dz\symbf{k} + ay\symbf{k} - bx\symbf{k} + cw\symbf{k} \\}
-    \onslide<4->{& = dw - \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \cdot \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle \\}
-    \onslide<4->{& + \left\langle\begin{matrix}}
-    \onslide<4->{dx + aw + bz - cy \\}
-    \onslide<4->{dy - az + bw + cx \\}
-    \onslide<4->{dz + ay - bx + cw}
-    \onslide<4->{\end{matrix}\right\rangle}
-    \onslide<4->{\cdot \left\langle\begin{matrix} \symbf{i} \\ \symbf{j} \\ \symbf{k} \end{matrix}\right\rangle \\}
-    \onslide<5->{& = dw - \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \cdot \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle + \left(d \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle + w \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle + \left\langle\begin{smallmatrix} a\\b\\c \end{smallmatrix}\right\rangle \times \left\langle\begin{smallmatrix} x\\y\\z \end{smallmatrix}\right\rangle \right) \cdot \left\langle\begin{smallmatrix} \symbf{i}\\\symbf{j}\\\symbf{k} \end{smallmatrix}\right\rangle}
+    \only<2-3>{& = dw - ax - by - cz \\}
+    \only<4>{& = dw - (ax + by + cz) \\}
+    \only<5->{& = dw - \begin{asvector} a\\b\\c \end{asvector} \cdot \begin{asvector} x\\y\\z \end{asvector} \\}
+    \only<2-5>{& + dx\symbf{i} + aw\symbf{i} + bz\symbf{i} - cy\symbf{i} \\}
+    \only<2-5>{& + dy\symbf{j} - az\symbf{j} + bw\symbf{j} + cx\symbf{j} \\}
+    \only<2-5>{& + dz\symbf{k} + ay\symbf{k} - bx\symbf{k} + cw\symbf{k} \\}
+    \onslide<6->{& + \begin{avector}}
+    \onslide<6->{dx + aw + bz - cy \\}
+    \onslide<6->{dy - az + bw + cx \\}
+    \onslide<6->{dz + ay - bx + cw}
+    \onslide<6->{\end{avector}}
+    \onslide<6->{\cdot \begin{avector} \symbf{i} \\ \symbf{j} \\ \symbf{k} \end{avector} \\}
+    \onslide<7->{& = dw - \begin{asvector} a\\b\\c \end{asvector} \cdot \begin{asvector} x\\y\\z \end{asvector} + \left(d \begin{asvector} x\\y\\z \end{asvector} \only<8->{+ w \begin{asvector} a\\b\\c \end{asvector}} \only<9->{+ \begin{asvector} a\\b\\c \end{asvector} \times \begin{asvector} x\\y\\z \end{asvector}} \only<7-8>{\cdots} \right) \cdot \begin{asvector} \symbf{i}\\\symbf{j}\\\symbf{k} \end{asvector}}
 \end{align*}
+
+* Hypercomplex Iterative Methods
 
 ** Iteration
 
+*** Text
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+**** Rules
+:PROPERTIES:
+    :BEAMER_env: block
+:END:
+
+$f(z) = z^2 + q$
+
+$q = 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}$
+
+$z_0 = 0.5 - 0.5\symbf{i} + 0.5\symbf{j} - 0.5\symbf{k}$
+
+**** The Rest :ignore:
+
+#+ATTR_BEAMER: :overlay <+->
+- $f^0(z) = 0.5 - 0.5\symbf{i} + 0.5\symbf{j} - 0.5\symbf{k}$
+- $f^1(z) = -0.2 - 0.875\symbf{i} - 0.175\symbf{j} - 0.612\symbf{k}$
+- $f^2(z) = -0.831 - 0.025\symbf{i} - 0.605\symbf{j} + 0.133\symbf{k}$
+- $f^3(z) \approx 0.6066 - 0.333\symbf{i} + 0.330\symbf{j} - 0.333\symbf{k}$
+- $f^4(z) \approx 0.336 - 0.779\symbf{i} - 0.274\symbf{j} - 0.515\symbf{k}$
+- $f^5(z) \approx -0.535 - 0.899\symbf{i} - 0.860\symbf{j} - 0.458\symbf{k}$
+
+*** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+**** Generator :ignore:
+
 #+NAME: iter_5
-#+HEADER: :var path="Figs/exports/Iter_5.png" cnt=5
-#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
-<<plt-fig-preamble>>
-<<plt-iteration>>
+#+BEGIN_SRC python :results file :exports none :eval no
+mpl.rcParams['font.size'] = 10.0
 import quaternion
 f = lambda z: z*z + np.quaternion(0.3,-.375,-.675,-.112)
 z_0 = np.quaternion(0.5, -0.5, 0.5, -0.5)
@@ -845,27 +924,94 @@ for quat in data:
     x.append(quat.x)
     y.append(quat.y)
     z.append(quat.z)
+ax_map = {'Real': w, 'i': x, 'j': y, 'k': z}
 
-plt.xlabel('Real, j')
-plt.ylabel('i, k')
-plt.plot(w, x, 'o--', color='royalblue')
-plt.plot(y, z, 'o--', color='forestgreen')
+selected_ax = (('Real', 'i'),('Real','j'),('Real','k'),('j','k'))
+fig, axs = plt.subplots(2, 2)
+for ax in zip(axs.flat, selected_ax):
+    ax[0].set(xlim=(-1.5, 1.5), ylim = (-1.5, 1.5),
+              xlabel=ax[1][0], ylabel=ax[1][1],
+              aspect=1)
+    ax[0].plot(ax_map[ax[1][0]], ax_map[ax[1][1]], 'o--', color='royalblue')
+#+END_SRC
+
+#+NAME: iter_5-0
+#+HEADER: :var path="Figs/exports/Iter_5-0.png" cnt=0
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
 <<plt-fig-export>>
 #+END_SRC
 
-#+LATEX: \begin{center}
-#+ATTR_LATEX: :height 0.70\textheight
-#+RESULTS: iter_5
-#+LATEX: \end{center}
+#+NAME: iter_5-1
+#+HEADER: :var path="Figs/exports/Iter_5-1.png" cnt=1
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
 
-* Hypercomplex Iterative Methods
+#+NAME: iter_5-2
+#+HEADER: :var path="Figs/exports/Iter_5-2.png" cnt=2
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_5-3
+#+HEADER: :var path="Figs/exports/Iter_5-3.png" cnt=3
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_5-4
+#+HEADER: :var path="Figs/exports/Iter_5-4.png" cnt=4
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
+
+#+NAME: iter_5-5
+#+HEADER: :var path="Figs/exports/Iter_5-5.png" cnt=5
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
+
+**** Results :ignore:
+
+#+LATEX: \begin{center}
+#+ATTR_BEAMER: :overlay <1> :height 0.70\textheight
+#+RESULTS: iter_5-0
+#+ATTR_BEAMER: :overlay <2> :height 0.70\textheight
+#+RESULTS: iter_5-1
+#+ATTR_BEAMER: :overlay <3> :height 0.70\textheight
+#+RESULTS: iter_5-2
+#+ATTR_BEAMER: :overlay <4> :height 0.70\textheight
+#+RESULTS: iter_5-3
+#+ATTR_BEAMER: :overlay <5> :height 0.70\textheight
+#+RESULTS: iter_5-4
+#+ATTR_BEAMER: :overlay <6> :height 0.70\textheight
+#+RESULTS: iter_5-5
+#+LATEX: \end{center}
 
 ** Implementation
 
 *** Quaternion Multiplication
 
 #+BEGIN_SRC python -n :eval no
-def qMult(p, q):
+def q_mult(p, q):
     r = Quat(
         p.r*q.r – p.i*q.i – p.j*q.j - p.k*q.k,
         p.r*q.i + p.i*q.r + p.j*q.k - p.k*q.j,
@@ -880,7 +1026,7 @@ def qMult(p, q):
 *** Quaternion Square
 
 #+BEGIN_SRC python -n :eval no
-def qSquare(q):
+def q_square(q):
     r = Quat(
         q.r*q.r – q.i*q.i – q.j*q.j - q.k*q.k,
         2*q.r*q.i,
@@ -895,7 +1041,7 @@ def qSquare(q):
 *** Quaternion Add
 
 #+BEGIN_SRC python -n :eval no
-def qAdd(p, q):
+def q_add(p, q):
     r = Quat(
         p.r + q.r,
         p.i + q.i,
@@ -912,25 +1058,36 @@ def qAdd(p, q):
 #+BEGIN_SRC python -n :eval no
 N = 12
 B = 16
-c = Quat(-0.2, 0.4, -0.4, -0.4)
+q = Quat(-0.2, 0.4, -0.4, -0.4)
 def iterate(z):
     for n in range(N):
-        z = z*z + c
-        if abs(z) > B: break
+        z = q_add(q_square(z), q)
+        if q_abs(z) > B*B: break
     return n
 #+END_SRC
 
-** TODO Ploting
+** TODO Plotting
 
-** TODO Raytracing
+** TODO Ray Tracing
+
+#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]]
+#+ATTR_LATEX: :height 0.60\textheight
+[[./Figs/Fig_5-1.svg]]
 
 ** TODO Ray Marching
 
+
+
 ** TODO Normal Estimation
+
+
+#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]]
+#+ATTR_LATEX: :height 0.60\textheight
+[[./Figs/Fig_5-2.svg]]
 
 ** Hypercomplex Iterative Fractals
 
-***  Hypercomplex Juila Set Example :BMCOL:
+*** Quaternion Juila Set Example :BMCOL:
 :PROPERTIES:
     :BEAMER_col: 0.55
     :BEAMER_env: block
@@ -938,7 +1095,7 @@ def iterate(z):
 
 - Defined by iterative function in 4D Quaternion space
 
-*** Hypercomplex Julia Set :BMCOL:
+*** Quaternion Julia Set :BMCOL:
 :PROPERTIES:
     :BEAMER_col: 0.45
 :END:
@@ -947,7 +1104,7 @@ def iterate(z):
 #+ATTR_LATEX: :center yes :width 0.75\textwidth
 [[./Figs/Fig_1v2.png]]
 
-** Conclusion
+** Summary
 
 #+LATEX: %\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
 #+TOC: headlines 2
