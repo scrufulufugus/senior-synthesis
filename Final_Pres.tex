@@ -1,4 +1,4 @@
-% Created 2023-05-13 Sat 16:14
+% Created 2023-05-15 Mon 11:54
 % Intended LaTeX compiler: pdflatex
 \documentclass[aspectratio=169,t]{beamer}
 \usepackage[utf8]{inputenc}
@@ -51,31 +51,31 @@
 \tableofcontents
 \end{frame}
 
-\begin{frame}[label={sec:org3caffe1}]{Definitions}
-\begin{definition}[Dynamical System]\label{sec:org96ff22d}
+\begin{frame}[label={sec:org40dbb81}]{Definitions}
+\begin{definition}[Iterative Method]\label{sec:org3c9c3da}
+A sequence where each value in the sequence is defined by the previous value.
+\end{definition}
+
+\begin{definition}<2->[Dynamical System]\label{sec:orgea150ec}
 A system that enacts rules on a set of variables to produce a state.
 \end{definition}
 
-\begin{definition}<2->[Complex Dynamics]\label{sec:org6a06202}
+\begin{definition}<3->[Complex Dynamics]\label{sec:org75a41e5}
 The study of \uline{dynamical systems} defined by complex functions.
-\end{definition}
-
-\begin{definition}<3->[Iterative Method]\label{sec:org570ec22}
-A sequence where each value in the sequence is defined by the previous value.
 \end{definition}
 \end{frame}
 
 \section{Iteration}
-\label{sec:org61b2ae9}
+\label{sec:org19974a0}
 
-\begin{frame}[label={sec:orgc4458c3}]{Iteration}
-\begin{definition}[Function Iteration]\label{sec:org3870eeb}
+\begin{frame}[label={sec:orgbcf566c}]{Iteration}
+\begin{definition}[Function Iteration]\label{sec:org5dd1aca}
 \(f^0 := \symbf{I}\)
 
 \(f^{k+1} := f \circ f^k\)
 \end{definition}
 
-\begin{exampleblock}<2->{Example}\label{sec:org1cefd3b}
+\begin{exampleblock}<2->{Example}\label{sec:org66305d7}
 Given \(f(x) = x + 1\),
 
 \begin{talign*}
@@ -88,8 +88,8 @@ Given \(f(x) = x + 1\),
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}[label={sec:orgc5c9637}]{Complex Numbers}
-\begin{definition}[Complex Numbers]\label{sec:org393f7cf}
+\begin{frame}[label={sec:org70cad48}]{Complex Numbers}
+\begin{definition}[Complex Numbers]\label{sec:org06cfb3d}
 \(\symbf{i}^2 = -1\)
 
 \(\{a + b \symbf{i} : a,b \in \symbb{R} \} \in \symbb{C}\)
@@ -122,9 +122,9 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{frame}
 
 \section{Complex Iterative Methods}
-\label{sec:org4295d86}
+\label{sec:org87bcdc3}
 
-\begin{frame}[label={sec:org95931e4}]{Complex Iteration}
+\begin{frame}[label={sec:org4700d62}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -153,7 +153,7 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgd3d488b}]{Complex Iteration}
+\begin{frame}[label={sec:orge3ba6b9}]{Complex Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -187,7 +187,7 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orge5a5ed1}]{Group Activity}
+\begin{frame}[label={sec:orgbb46165}]{Group Activity}
 \(f(z) = z^2 + c\)
 
 \begin{columns}
@@ -209,7 +209,7 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgcd41b31}]{Group Activity (Easier)}
+\begin{frame}[label={sec:orge3a38a8}]{Group Activity (Easier)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -241,7 +241,7 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org1815578}]{Group Activity (Harder)}
+\begin{frame}[label={sec:org68cb490}]{Group Activity (Harder)}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -273,7 +273,7 @@ Let \(a,b,x,y \in \symbb{R}\),
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgf280bda},fragile]{Implementation}
+\begin{frame}[label={sec:org334a3e6},fragile]{Implementation}
  \begin{columns}
 \begin{column}{0.50\columnwidth}
 \begin{block}{Iteration (Python)}
@@ -298,7 +298,7 @@ def iterate(z):
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org1678e50}]{Iterative Fractals}
+\begin{frame}[label={sec:org9b7ea16}]{Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Complex Juila Set Example}
@@ -307,7 +307,7 @@ Defined by iterative function in complex space
 \begin{itemize}
 \item \(f_c (z) = z^2 + c\)
 
-\item \(\left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} > B \text{ as } k \to \infty\right\} \in K_c\)
+\item \(K_c = \left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} > B \text{ as } k \to \infty\right\}\)
 \end{itemize}
 \end{block}
 \end{column}
@@ -323,9 +323,9 @@ Defined by iterative function in complex space
 \end{frame}
 
 \section{Quaternions}
-\label{sec:org2fa9243}
+\label{sec:org41d15ad}
 
-\begin{frame}[label={sec:orgcb3e169},b]{Quaternions History}
+\begin{frame}[label={sec:org8ad6664},b]{Quaternions History}
 \begin{columns}
 \begin{column}{0.50\columnwidth}
 \begin{figure}[htbp]
@@ -345,8 +345,8 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgde70f8c}]{Quaternions}
-\begin{definition}[Quaternion]\label{sec:orgaab595a}
+\begin{frame}[label={sec:org2a8fa64}]{Quaternions}
+\begin{definition}[Quaternion]\label{sec:org8ef9ea0}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
 \(\left\{ d + a\symbf{i} + b\symbf{j} + c\symbf{k} : a,b,c,d \in \symbb{R} \right\} \in \symbb{H}\)
@@ -391,7 +391,7 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgdcb4a46}]{}
+\begin{frame}[label={sec:org77d4b28}]{}
 \begin{block}{Let,}
 \(\symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1\)
 
@@ -421,10 +421,10 @@ Defined by iterative function in complex space
 \end{align*}
 \end{frame}
 
-\section{Hypercomplex Iterative Methods}
-\label{sec:orgb9b44b9}
+\section{Quaternion Iterative Methods}
+\label{sec:org210657c}
 
-\begin{frame}[label={sec:orgbffe82d}]{Iteration}
+\begin{frame}[label={sec:org4fd5845}]{Iteration}
 \begin{columns}
 \begin{column}{0.5\columnwidth}
 \begin{block}{Rules}
@@ -458,7 +458,7 @@ Defined by iterative function in complex space
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org4d918c5},fragile]{Implementation}
+\begin{frame}[label={sec:org2d87108},fragile]{Implementation}
  \begin{block}{Quaternion Multiplication}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def q_mult(p, q):
@@ -473,7 +473,7 @@ def q_mult(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orge4df58f},fragile]{Implementation}
+\begin{frame}[label={sec:org240927a},fragile]{Implementation}
  \begin{block}{Quaternion Square}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def q_square(q):
@@ -488,7 +488,7 @@ def q_square(q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgc335b9f},fragile]{Implementation}
+\begin{frame}[label={sec:org97a9868},fragile]{Implementation}
  \begin{block}{Quaternion Add}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 def q_add(p, q):
@@ -503,7 +503,7 @@ def q_add(p, q):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:org9a17ceb},fragile]{Implementation}
+\begin{frame}[label={sec:org66ccd12},fragile]{Implementation}
  \begin{block}{Iteration}
 \begin{lstlisting}[language=Python,firstnumber=1,numbers=left]
 N = 12
@@ -518,31 +518,69 @@ def iterate(z):
 \end{block}
 \end{frame}
 
-\begin{frame}[label={sec:orgf1d75bc}]{Plotting}
+\begin{frame}[label={sec:org8a642f0},b]{Plotting}
+\begin{columns}
+\begin{column}{0.5\columnwidth}
+\begin{center}
+\begin{figure}[htbp]
+
+\includegraphics[width=0.75\textwidth]{Figs/exports/Iter_5-12.png}
+\caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\) \\ \(f^{12}(0.5 - 0.5\symbf{i} + 0.5\symbf{j} - 0.5\symbf{k})\)}
+\end{figure}
+\end{center}
+\end{column}
+
+\begin{column}{0.5\columnwidth}
+\begin{center}
+\begin{figure}[htbp]
+
+\includegraphics[width=0.75\textwidth]{./Figs/Fig_1v2.png}
+\caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\) \\ Axis: Real, \(\symbf{i}, \symbf{j}\)}
+\end{figure}
+\end{center}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org9d8488f}]{Ray Tracing}
+\begin{frame}[label={sec:org4678ccb}]{Ray Tracing}
 \begin{figure}[htbp]
 
 \includesvg[height=0.60\textheight]{./Figs/Fig_5-1}
-\caption{Ray Tracing Diagram \\ \ccbysa \href{https://commons.wikimedia.org/wiki/File:Ray\_trace\_diagram.svg}{Wikipedia - Henrik}}
+\caption{Ray Tracing Diagram \\ \ccbysa \href{https://commons.wikimedia.org/wiki/File:Ray\_trace\_diagram.svg}{Wikipedia - Henrik} with modifications}
 \end{figure}
 \end{frame}
 
-\begin{frame}[label={sec:orgbcbe107}]{Ray Marching}
+\begin{frame}[label={sec:org2f1dbe7}]{Ray Marching}
+\begin{columns}
+\begin{column}{0.5\columnwidth}
+\begin{figure}[htbp]
+
+\includegraphics[width=.9\linewidth]{./Figs/Fig_6.png}
+\caption{Ray Marching \\ \ccCopy \href{http://celarek.at/2014/05/real-time-3d-mandelbulb/}{Adam Celarek}}
+\end{figure}
+\end{column}
+
+\begin{column}{0.5\columnwidth}
+\begin{theorem}[Distance Estimation]\label{sec:org781eec0}
+Let \(f(z) = z^m + q\) where \(q \in \symbb{H}, m \in \symbb{Z}^+\) be the iterative function of a Julia fractal. Then, the distance, \(\delta\), to the fractal can be approximated by
+\begin{align*}
+    a \frac{z_n}{z_n'} < \delta
+\end{align*}
+where \(a \in \symbb{R}\) is some constant coefficient.
+\end{theorem}
+\end{column}
+\end{columns}
 \end{frame}
 
-
-
-\begin{frame}[label={sec:org025e5f5}]{Normal Estimation}
+\begin{frame}[label={sec:org1232e4c}]{Normal Estimation}
 \begin{figure}[htbp]
 
 \includesvg[height=0.60\textheight]{./Figs/Fig_5-2}
-\caption{Ray Tracing Diagram \\ \ccbysa \href{https://commons.wikimedia.org/wiki/File:Ray\_trace\_diagram.svg}{Wikipedia - Henrik}}
+\caption{Ray Tracing Diagram \\ \ccbysa \href{https://commons.wikimedia.org/wiki/File:Ray\_trace\_diagram.svg}{Wikipedia - Henrik} with modifications}
 \end{figure}
 \end{frame}
 
-\begin{frame}[label={sec:org584d7c8}]{Hypercomplex Iterative Fractals}
+\begin{frame}[label={sec:orgb55b09f}]{Quaternion Iterative Fractals}
 \begin{columns}
 \begin{column}{0.55\columnwidth}
 \begin{block}{Quaternion Juila Set Example}
@@ -553,17 +591,15 @@ def iterate(z):
 \end{column}
 
 \begin{column}{0.45\columnwidth}
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.75\textwidth]{./Figs/Fig_1v2.png}
-\caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\)}
+\begin{figure}
+\animategraphics[autoplay,interpolate,width=0.75\textwidth,loop,palindrome]{2}{Figs/Iter_Q/}{1}{11}
+\caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\) \\ Axis: Real, \(\symbf{i}, \symbf{j}\) \\ N = 1-11}
 \end{figure}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org8301766}]{Summary}
-%\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
+\begin{frame}[label={sec:org73bb5c7}]{Summary}
 \setcounter{tocdepth}{2}
 \tableofcontents
 \end{frame}
@@ -574,7 +610,7 @@ def iterate(z):
 \bibliographystyle{alpha}
 \end{frame}
 
-\begin{frame}[label={sec:org71dd611}]{Questions?}
+\begin{frame}[label={sec:org523870f}]{Questions?}
 \begin{center}
 \url{https://github.com/scrufulufugus/senior-synthesis}
 

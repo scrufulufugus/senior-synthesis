@@ -42,7 +42,6 @@
 #+BEAMER_HEADER: \definecolor{main}{HTML}{93361f}
 #+BEAMER_HEADER: \definecolor{background}{HTML}{D0D0D0}
 #+BEAMER_HEADER: \definecolor{royalblue}{HTML}{4169e1}
-
 #+BEAMER_HEADER: \definecolor{forestgreen}{HTML}{228b22}
 
 *** Use Listings instead of verbatim
@@ -132,9 +131,17 @@ plt.ylabel('Imag')
 
 ** Definitions
 
+*** Iterative Method
+:PROPERTIES:
+    :BEAMER_env: definition
+:END:
+
+A sequence where each value in the sequence is defined by the previous value.
+
 *** Dynamical System
 :PROPERTIES:
     :BEAMER_env: definition
+    :BEAMER_act: <2->
 :END:
 
 A system that enacts rules on a set of variables to produce a state.
@@ -142,28 +149,18 @@ A system that enacts rules on a set of variables to produce a state.
 *** Complex Dynamics
 :PROPERTIES:
     :BEAMER_env: definition
-    :BEAMER_act: <2->
+    :BEAMER_act: <3->
 :END:
 
 The study of _dynamical systems_ defined by complex functions.
 
-*** Iterative Method
+*** Fractal :noexport:
 :PROPERTIES:
     :BEAMER_env: definition
-    :BEAMER_act: <3->
+    :BEAMER_act: <4->
 :END:
 
-A sequence where each value in the sequence is defined by the previous value.
-
-*** Notes :noexport:
-
-...
-
-To review, a Dynamical System is a system that enacts rules on a set of variables to produce a state.
-
-Complex Dynamics is the study of dynamical systems that operate on complex iterative functions.
-
-The main goals of my research have been to explore the proprieties and connections of complex dynamics, gain an understanding of hypercomplex numbers, and to explore examples of hypercomplex dynamics.
+TODO
 
 * Iteration
 
@@ -728,7 +725,7 @@ plt.plot(data.real, data.imag, 'o--', color='forestgreen')
 #+RESULTS: iter_4-128
 #+LATEX: \end{center}
 
-** Iterative Fractals
+** TODO Iterative Fractals
 
 *** Text :BMCOL:
 :PROPERTIES:
@@ -741,7 +738,7 @@ Defined by iterative function in complex space
 
 - $f_c (z) = z^2 + c$
 
-- $\left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} > B \text{ as } k \to \infty\right\} \in K_c$
+- $K_c = \left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} > B \text{ as } k \to \infty\right\}$
 
 *** Julia Set :BMCOL:
 :PROPERTIES:
@@ -751,16 +748,6 @@ Defined by iterative function in complex space
 #+CAPTION: $f(z) = z^2 -0.675 - 0.112\symbf{i}$
 #+ATTR_LATEX: :center yes :width 0.80\textwidth
 [[./Figs/Fig_2v2.png]]
-
-*** Notes :noexport:
-
-To start,
-
-On the right is an example of a complex dynamical system commonly called a Julia set, or more accurately a filled Julia set.
-
-The left side shows the function and rule that define the set. To simply the syntax we re-define f to k to mean f composed k times.
-
-A point, $z_0$, is in the set if it stays bounded as we iterate infinite times; bounded means that the point does not go to infinity.
 
 * Quaternions
 
@@ -871,7 +858,7 @@ $q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}$
     \onslide<7->{& = dw - \begin{asvector} a\\b\\c \end{asvector} \cdot \begin{asvector} x\\y\\z \end{asvector} + \left(d \begin{asvector} x\\y\\z \end{asvector} \only<8->{+ w \begin{asvector} a\\b\\c \end{asvector}} \only<9->{+ \begin{asvector} a\\b\\c \end{asvector} \times \begin{asvector} x\\y\\z \end{asvector}} \only<7-8>{\cdots} \right) \cdot \begin{asvector} \symbf{i}\\\symbf{j}\\\symbf{k} \end{asvector}}
 \end{align*}
 
-* Hypercomplex Iterative Methods
+* Quaternion Iterative Methods
 
 ** Iteration
 
@@ -928,6 +915,7 @@ ax_map = {'Real': w, 'i': x, 'j': y, 'k': z}
 
 selected_ax = (('Real', 'i'),('Real','j'),('Real','k'),('j','k'))
 fig, axs = plt.subplots(2, 2)
+fig.subplots_adjust(hspace = 0.3)
 for ax in zip(axs.flat, selected_ax):
     ax[0].set(xlim=(-1.5, 1.5), ylim = (-1.5, 1.5),
               xlabel=ax[1][0], ylabel=ax[1][1],
@@ -1066,26 +1054,77 @@ def iterate(z):
     return n
 #+END_SRC
 
-** TODO Plotting
+** Plotting
+:PROPERTIES:
+    :BEAMER_opt: b
+:END:
 
-** TODO Ray Tracing
+*** Pane 1
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
 
-#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]]
+**** Generator :ignore:
+
+#+NAME: iter_5-12
+#+HEADER: :var path="Figs/exports/Iter_5-12.png" cnt=12
+#+BEGIN_SRC python :exports results :noweb strip-export :results file :eval export
+<<plt-fig-preamble>>
+<<plt-iteration>>
+<<iter_5>>
+<<plt-fig-export>>
+#+END_SRC
+
+**** Results :ignore:
+
+#+CAPTION: $f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}$ @@latex:\\@@ $f^{12}(0.5 - 0.5\symbf{i} + 0.5\symbf{j} - 0.5\symbf{k})$
+#+ATTR_LATEX: :center yes :width 0.75\textwidth
+#+RESULTS: iter_5-12
+
+*** Pane 2
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
+
+#+CAPTION: $f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}$ @@latex:\\@@ Axis: Real, $\symbf{i}, \symbf{j}$
+#+ATTR_LATEX: :center yes :width 0.75\textwidth
+[[./Figs/Fig_1v2.png]]
+
+** Ray Tracing
+
+#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]] with modifications
 #+ATTR_LATEX: :height 0.60\textheight
 [[./Figs/Fig_5-1.svg]]
 
-** TODO Ray Marching
+** Ray Marching
 
+*** Image
+:PROPERTIES:
+    :BEAMER_col: 0.5
+:END:
 
+#+CAPTION: Ray Marching @@latex:\\@@ @@latex:\ccCopy@@ [[http://celarek.at/2014/05/real-time-3d-mandelbulb/][Adam Celarek]]
+[[./Figs/Fig_6.png]]
 
-** TODO Normal Estimation
+*** Distance Estimation
+:PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: theorem
+:END:
 
+Let $f(z) = z^m + q$ where $q \in \symbb{H}, m \in \symbb{Z}^+$ be the iterative function of a Julia fractal. Then, the distance, $\delta$, to the fractal can be approximated by
+\begin{align*}
+    a \frac{z_n}{z_n'} < \delta
+\end{align*}
+where $a \in \symbb{R}$ is some constant coefficient.
 
-#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]]
+** Normal Estimation
+
+#+CAPTION: Ray Tracing Diagram @@latex:\\@@ @@latex:\ccbysa@@ [[https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg][Wikipedia - Henrik]] with modifications
 #+ATTR_LATEX: :height 0.60\textheight
 [[./Figs/Fig_5-2.svg]]
 
-** Hypercomplex Iterative Fractals
+** TODO Quaternion Iterative Fractals
 
 *** Quaternion Juila Set Example :BMCOL:
 :PROPERTIES:
@@ -1100,13 +1139,14 @@ def iterate(z):
     :BEAMER_col: 0.45
 :END:
 
-#+CAPTION: $f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}$
-#+ATTR_LATEX: :center yes :width 0.75\textwidth
-[[./Figs/Fig_1v2.png]]
+#+LATEX: \begin{figure}
+#+LATEX: \animategraphics[autoplay,interpolate,width=0.75\textwidth,loop,palindrome]{2}{Figs/Iter_Q/}{1}{11}
+#+LATEX: \caption{\(f(z) = z^2 + 0.3 - 0.375\symbf{i} - 0.675\symbf{j} - 0.112\symbf{k}\) \\ Axis: Real, \(\symbf{i}, \symbf{j}\) \\ N = 1-11}
+#+LATEX: \end{figure}
 
 ** Summary
 
-#+LATEX: %\animategraphics[autoplay,interpolate,height=4.0cm,loop]{7}{Figs/Test/}{1}{14}
+#+LATEX:
 #+TOC: headlines 2
 
 ** References
