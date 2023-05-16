@@ -215,7 +215,7 @@ Let $a,b,x,y \in \symbb{R}$,
 
 #+LATEX: \vspace{\baselineskip}
 \begin{talign*}
-    \onslide<3->{(a + b\symbf{i}) + (x + y\symbf{i})} \onslide<4->{& = (a + x) + (b + y)\symbf{i}}
+    (a + b\symbf{i}) + (x + y\symbf{i}) \onslide<4->{& = (a + x) + (b + y)\symbf{i}}
 \end{talign*}
 
 *** Multiplication
@@ -229,7 +229,7 @@ Let $a,b,x,y \in \symbb{R}$,
 
 #+LATEX: \vspace{\baselineskip}
 \begin{talign*}
-    \onslide<6->{(a + b\symbf{i}) \ast (x + y\symbf{i})} \onslide<7->{& = ax + ay\symbf{i} + bx\symbf{i} + by\symbf{i}^2 \\}
+    (a + b\symbf{i}) \ast (x + y\symbf{i}) \onslide<7->{& = ax + ay\symbf{i} + bx\symbf{i} + by\symbf{i}^2 \\}
     \onslide<8->{& = (ax - by) + (ay + bx)\symbf{i}}
 \end{talign*}
 
@@ -861,10 +861,10 @@ $q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}$
 #+BEGIN_SRC python -n :eval no
 def q_mult(p, q):
     r = Quat(
-        p.r*q.r – p.i*q.i – p.j*q.j - p.k*q.k,
-        p.r*q.i + p.i*q.r + p.j*q.k - p.k*q.j,
-        p.r*q.j – p.i*q.k + p.j*q.r + p.j*q.i,
-        p.r*q.k + p.i*q.j – p.j*q.i + p.k*q.r
+        p.w*q.w – p.x*q.x – p.y*q.y - p.z*q.z,
+        p.w*q.x + p.x*q.w + p.y*q.z - p.z*q.y,
+        p.w*q.y – p.x*q.z + p.y*q.w + p.y*q.x,
+        p.w*q.z + p.x*q.y – p.y*q.x + p.z*q.w
     )
     return r
 #+END_SRC
@@ -876,10 +876,10 @@ def q_mult(p, q):
 #+BEGIN_SRC python -n :eval no
 def q_square(q):
     r = Quat(
-        q.r*q.r – q.i*q.i – q.j*q.j - q.k*q.k,
-        2*q.r*q.i,
-        2*q.r*q.j,
-        2*q.r*q.k
+        q.w*q.w – q.x*q.x – q.y*q.y - q.z*q.z,
+        2*q.w*q.x,
+        2*q.w*q.y,
+        2*q.w*q.z
     )
     return r
 #+END_SRC
@@ -887,16 +887,35 @@ def q_square(q):
 ** Implementation
 
 *** Quaternion Add
+:PROPERTIES:
+    :BEAMER_col: 0.45
+    :BEAMER_env: block
+:END:
 
 #+BEGIN_SRC python -n :eval no
 def q_add(p, q):
     r = Quat(
-        p.r + q.r,
-        p.i + q.i,
-        p.j + q.j,
-        p.k + q.k
+        p.w + q.w,
+        p.x + q.x,
+        p.y + q.y,
+        p.z + q.z
     )
     return r
+#+END_SRC
+
+*** Quaternion Magnitude
+:PROPERTIES:
+    :BEAMER_col: 0.45
+    :BEAMER_env: block
+    :BEAMER_act: <2->
+:END:
+
+#+BEGIN_SRC python -n :eval no
+def q_abs(q):
+    return q.w*q.w +
+           q.x*q.x +
+           q.y*q.y +
+           q.z*q.z
 #+END_SRC
 
 ** Implementation
