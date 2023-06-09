@@ -1,0 +1,337 @@
+% Created 2023-06-09 Fri 14:10
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt,hidelinks]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\numberwithin{equation}{section} % Number equations by section
+\hyphenpenalty=5000
+\tolerance=700
+\usepackage[indent=2.5em]{parskip}
+\usepackage{titling} % For title
+\usepackage{titlesec} % For section headings
+\usepackage{unicode-math} % For font loading
+\newfontfamily\headingfont{Libre Baskerville}
+\setmainfont{DejaVuSerif}
+\setmathfont{DejaVu Math TeX Gyre}
+\setmathfont{Fira Math}[range={\infty}] % Steal some symbols
+\AtBeginDocument{\renewcommand{\setminus}{\mathbin{\backslash}}} % Replace setminus with nice backslash
+\titleformat*{\section}{\LARGE\bfseries\headingfont}
+\titleformat*{\subsection}{\Large\headingfont}
+\titleformat*{\subsubsection}{\large\headingfont}
+\renewcommand{\maketitlehooka}{\headingfont}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert} % ABS: abs{}
+\usepackage{animate}
+\newenvironment{asvector}{\left\langle\begin{smallmatrix}}{\end{smallmatrix}\right\rangle}
+\newenvironment{avector}{\left\langle\begin{matrix}}{\end{matrix}\right\rangle}
+\newenvironment{talign}{\begin{equation}\begin{aligned}}{\end{aligned}\end{equation}}
+\newenvironment{talign*}{\[\begin{aligned}}{\end{aligned}\]}
+\usepackage{amsthm}
+\newtheoremstyle{indentbf}{.5\topsep}{.5em}{\addtolength{\leftskip}{2.5em}}{-1.5em}{\bfseries\headingfont}{}{\newline}{}
+\newtheoremstyle{bf}{.5\topsep}{.5em}{}{}{\bfseries\headingfont}{}{.5em}{}
+\theoremstyle{bf}
+\newtheorem{thm}{Theorem}[section]
+\theoremstyle{indentbf}
+\newtheorem{defn}{Definition}[section]
+\usepackage[ruled]{algorithm2e}
+\author{Samuel J. Monson}
+\date{\today}
+\title{Hypercomplex Iterative Methods for Fractal Generation and Visualization}
+\hypersetup{
+ pdfauthor={Samuel J. Monson},
+ pdftitle={Hypercomplex Iterative Methods for Fractal Generation and Visualization},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 30.0.50 (Org mode 9.6.1)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\section*{Abstract}
+\label{sec:org5a50dc5}
+Fractal generation and rendering has been a topic of interest in the computer graphics field for decades, with numerous techniques developed for exploring the complex and often beautiful world of fractals. In this paper, we focus on the use of quaternion iterative methods for generating fractals, utilizing the unique properties of quaternions to create visually stunning and mathematically intriguing fractals. We explore the definition and properties of quaternions. Using these properties, we define quaternion iterative methods. Finally, We discuss the challenges of rendering fractals in three dimensions, including the use of ray marching and distance estimation.
+
+\clearpage % Page break
+\setcounter{tocdepth}{3}
+\tableofcontents
+\clearpage % Page break
+
+\section{Introduction}
+\label{sec:org2b19630}
+
+The path towards understanding hypercomplex fractals encompasses various topics that are not typically covered in a standard mathematics education. It includes components of fractals, hypercomplex quaternion numbers, and computer graphics. Although each of these subjects build on existing mathematical principles, they are extensive and could each be studied separately. Fractals, in particular, are a vast topic that spans numerous disciplines. Thus, we will begin by providing a brief overview of each topic.
+
+\subsection{Fractals}
+\label{sec:orgc478bbc}
+
+Fractals, derived from the Latin word ``fractus'' meaning broken or irregular, are geometric structures characterized by self-similarity. They possess a unique property wherein they exhibit the same pattern regardless of the scale at which they are observed. This recursive nature allows fractals to possess an infinite level of detail, providing an infinite reservoir of complexity within finite boundaries. The study of fractals combines elements of mathematics, physics, computer science, and other disciplines to unravel the fundamental principles that govern their formation and behavior.
+
+The idea of fractals mostly originates from the groundbreaking work of mathematician Benoit Mandelbrot. Mandelbrot introduced the term ``fractal'' and developed a comprehensive framework for their study. His seminal work, ``The Fractal Geometry of Nature,'' laid the foundation for understanding the inherent fractal nature of various natural phenomena \cite{mandelbrot:1983}. Since then, researchers have expanded upon Mandelbrot's ideas, exploring fractals in different contexts and uncovering their presence in a myriad of systems, ranging from the microscopic to the cosmic.
+
+One of the fundamental aspects of fractals lies in their capacity to generate an infinite number of shapes and patterns through simple iterative processes. Fractals often emerge from recursive algorithms that repeatedly apply a set of rules to generate self-similar structures. By manipulating these rules, we can create an array of intricate fractal forms, each exhibiting its unique properties and characteristics. This ability to generate complexity from simplicity has profound implications for fields such as computer graphics and visualization, where fractals serve as valuable tools for generating realistic landscapes, simulating natural phenomena, and modeling complex structures.
+
+Moreover, fractals play a crucial role in understanding the dynamics and behavior of complex systems. Natural processes, such as the growth of biological organisms, the flow of fluids, and the formation of geological structures, often exhibit fractal characteristics. Fractals have also proven valuable in understanding phenomena such as chaos theory, network theory, and the behavior of financial markets, providing a fresh perspective on complex systems that defy traditional linear analysis. \cite{gleick:1988,barnsley:1988}
+
+\subsection{Quaternions}
+\label{sec:org01db7c1}
+
+Quaternions are a 4-dimensional numbering system that extends the complex number. Developed by the Irish mathematician William Rowan Hamilton in the mid-19th century \cite{hamilton:1866}, quaternions have since found some applications in various scientific and engineering disciplines, but their most extensive use is in computer graphics where they provide a powerful framework for representing and manipulating rotations in three-dimensional space.
+
+Quaternions consist of a real part and three imaginary parts, adding an additional two imaginary components to complex numbers. Quaternions retain most of the algebraic properties of complex numbers, and like complex numbers, they also retain most of the properties of real numbers. However, one intriguing difference between quaternions and complex numbers is that quaternions exhibit non-commutative multiplication, meaning that the order of their multiplication matters.
+
+For our purposes quaternions offer a great opportunity to visualize complex fractals in 3-dimensions. They naturally extend the complex numbers and enable us to use similar fractal formulas that we use for complex fractals. However, we cannot prove some theorems that apply to complex fractals for quaternion fractals due to the loss of commutativity. This challenges the rigorous definition of quaternion fractals compared to their complex counterparts.
+
+\subsection{Rendering}
+\label{sec:org7e95375}
+
+Moving from the 2-dimensional complex fractals to producing 3-dimensional renders of hypercomplex fractals introduces a lot of challenges. With complex fractals, it is sufficient to calculate an iteration for each screen pixel. While this posed difficulties for computers in the 1980s, modern machines can perform this operation in microseconds if coded appropriately. However, when it comes to hypercomplex fractals in 3-dimensions, things get more difficult. In general, 3-dimensional  rendering is accomplished through the rasterization process, which projects shapes geometrically onto a viewport plane. Unfortunately, fractals are implicit surfaces, which makes geometric transformation impossible.
+
+Instead of rasterization, we use a rendering technique called ray tracing. Ray tracing simulates the behavior of light as it interacts with objects in a virtual environment. This process follows rays of light from a virtual camera that interact with surfaces through reflection, refraction, and absorption. Ray tracing has been used for many years in cinema to create photorealistic imagery, but recent advances in computing power have made real-time ray tracing possible, leading to a craze of ray tracing in video games. What once took hours on the greatest graphics computing hardware of 1996 can now be accomplished on a personal computer many times faster thanks to these advances.
+
+\section{Background}
+\label{sec:org7eb19ab}
+
+\subsection{Iteration}
+\label{sec:orgdb4b3d0}
+
+The basic technique for generating fractals is iteration, which involves repeatedly applying a function to a point in space and observing the resulting trajectories. The simplest way to define iteration is with function composition. Given some function \(f\), the \(k\text{-th}\) iteration of \(f\) is \(f\) composed \(k\) times. Large values of \(k\) can become tedious to write, thus to simplify notation we can define iteration as an operation.
+
+\begin{defn}[Function Iteration Operation]
+For some function \(f\) and all \(k \in \symbb{Z}^+\),
+
+\noindent
+\(f^0 := \symbf{I}\)
+
+\noindent
+\(f^{k+1} := f \circ f^k\)
+\label{iter-def}
+\end{defn}
+
+For our operation it is also helpful to define our 0th value as the input of our function. Thus for the function \(f(x) = x + 1\) and input of \(x=1\) will result in,
+\begin{talign*}
+    f^0(1) & = 1 \\
+    f^1(1) & = 1 + 1 = 2 \\
+    f^2(1) & = \left(1 + 1\right) + 1 = 3 \\
+    f^3(1) & = \left(\left(1 + 1\right) + 1\right) + 1 = 4 \\
+    & \vdots
+\end{talign*}
+
+\subsection{Complex Dynamical Systems}
+\label{complex-dyn-sys}
+We can generate dynamical systems by using iteration. One interesting case is the quadratic function
+\begin{equation}
+\label{julia}
+f(z) = z^2 + c
+\end{equation}
+where \(z\) is some iterative variable and \(c\) some fixed constant.
+
+This example produces some interesting behavior. Namely, for most values of \(z\) there is some finite \(n \in \symbb{Z}^+\) values in the set \(\symcal{P} = \left\{ f^m(z) : 0 \leq m < \infty \right\}\). We call this set the \emph{cycle} of the point \(z\). The value of \(n\) is called the \emph{period} of our cycle. For example with the equation
+\begin{equation}
+f(z) = z^2 - 1
+\end{equation}
+an initial point of \(f(0)\) has a period of 2, since
+\begin{talign}
+    f^0(0) & = 0^2 - 1 = -1 \\
+    f^1(0) & = (-1)^2 - 1 = 0 \\
+    f^2(0) & = 0^2 - 1 = -1 \\
+    f^3(0) & = (-1)^2 - 1 = 0 \\
+    & \vdots
+\end{talign}
+
+A periodic point with a period of 1 is called a \emph{fixed point}. Points whose orbits become cycles are called \emph{preperiodic} and points that do not start in a cycle but eventually enter one are called \emph{strictly preperiodic}. \cite{dang:2002} We can classify cycles using eigenvalues given by the derivative of the \(n\text{-th}\) point in the cycle. For a given eigenvalue, \(\lambda\), we give the cycle the following classification:
+\[\begin{cases}
+    \lambda = 0 & \text{superattractive} \\
+    \lambda < 1 & \text{attractive} \\
+    \lambda = 1 & \text{neutral} \\
+    \lambda > 1 & \text{repelling}
+\end{cases}\]
+
+Attractive cycles end up drawing in many preperiodic and strictly preperiodic points. We can define the \emph{basis of attraction}, \(A_c(z)\) as the set of all points that approach the cycle containing the periodic point \(z\). Thus for any point \(z_0\),
+\begin{equation}
+    A_c(z) = \left\{ z_0 : f^k(z_0) = z \text{ for some } k > 0 \right\}
+\end{equation}
+
+For any polynomial function we will find that infinity is an attractive fixed point and thus,
+\begin{equation}
+    A_c(\infty) = \left\{ z_0 : f^k(z_0) \to \infty \text{ as } k \to \infty \right\}
+\end{equation}
+See \cite{barnsley:1988} for a visual proof.
+
+\subsubsection{The Julia Set}
+\label{sec:org846b573}
+
+Consider the function \(f_c : \symbb{C} \to \symbb{C}\); \(f_c(z) = z^2 + c\) for some \(c \in \symbb{C}\). Since \(f_c\) is polynomial, there exists a set \(A_c(\infty)\). The set \(A_c(\infty)\) will have a natural boundary between points that are attracted to the period of infinity and points that create their own cycles that do not go to infinity. Since we have at least the fixed points of \(z^2 + c = z\), this boundary will always exist. This boundary is known as the \emph{Julia set} of \(f_c\) and can be written as \(\partial A_c(\infty)\) or \(J_c\).
+
+A third set of interest is known as the \emph{filled-in} Julia set, which we can derive by subtracting the \(A_c(\infty)\) from the set of complex numbers. We can denote this set \(K_c\) and define it with,
+\begin{equation*}
+    K_c = \symbb{C} \setminus A_c(\infty) = \left\{ z_0 \in \symbb{C}: \abs{f^k_c \left(z_0 \right)} \text{ is not infinite for all } k \right\}
+\end{equation*}
+where the \(\abs{f_x^k(z_0)}\) denotes the order of the cycle containing \(z_0\). Thus, by our notation,
+\begin{equation*}
+    \partial K_c = J_c = \partial A_c(\infty)
+\end{equation*}
+
+For most values of \(c\) the Julia set, \(J_c\) exhibits fractal nature that can change quite drastically as \(c\) varies. We can classify filled-in Julia sets based on whether the border, \(J_c\), is one continuous space or a set of infinitely many points. We call the former a \emph{connected} Julia set and the latter a \emph{Cantor} set.
+
+\subsection{Quaternions}
+\label{sec:org2e6ec8c}
+
+To create and understand hypercomplex fractals, we require a hypercomplex space to operate within. William Rowan Hamilton, an Irish physicist and mathematician, invented the first hypercomplex space, the quaternion, in 1843 \cite{hamilton:1866}. Other hypercomplex spaces such as the tessarines, coquaternions, biquaternions, and octonions (Cayley Numbers) followed the quaternions. However, this paper will solely focus on quaternions as they provide the simplest and most intuitive extension to complex space.
+
+\subsubsection{Basic Theory}
+\label{sec:org50cc40b}
+
+We can denote the set of quaternions as \(\symbb{H}\). We can visualize the set \(\symbb{H}\) with the direct product \(\symbb{H} = \symbb{R} \oplus \symbb{P}\) where \(\symbb{P}\) is a 3-dimensional Euclidean vector space. In this configuration a quaternion can be written as
+\begin{equation}
+    q = w + x\symbf{i} + y\symbf{j} + z\symbf{k}
+\end{equation}
+for some \(w,x,y,z \in \symbb{R}\) where \(q \in \symbb{H}\) and \(\symbf{i},\symbf{j},\symbf{k}\) represent linearly independent unit vectors such that under quaternion multiplication
+\begin{equation}
+\label{q-def}
+    \symbf{i}^2 = \symbf{j}^2 = \symbf{k}^2 = \symbf{ijk} = -1
+\end{equation}
+
+From (\ref{q-def}) we can derive a few other interesting relationships. First that
+\begin{equation}
+\label{q-unit}
+    \symbf{ij} = \symbf{k}; \symbf{jk} = \symbf{i}; \symbf{ki} = \symbf{j}
+\end{equation}
+but also
+\begin{equation}
+\label{q-unit-inverse}
+    \symbf{ji} = -\symbf{k}; \symbf{kj} = -\symbf{i}; \symbf{ik} = -\symbf{j}
+\end{equation}
+The combination (\ref{q-unit}) and (\ref{q-unit-inverse}) shows us that quaternion multiplication is noncommutative since we have different definitions for \(\symbf{ij}\) and \(\symbf{ji}\).
+
+We can call a quaternion with a non-zero \(w\) component and zeroed \(x,y,z\) components a \emph{real quaternion} since it is analogous to a real number. Quaternions with a zeroed \(w\) component and some non-zero combination of \(x,y,z\) components are called \emph{pure quaternions}. Because (\ref{q-def}) only defines relationships between quaternion units, it is apparent that real quaternions are not affected by their noncommutative nature. In fact, real quaternion can be treated for all intents as real numbers just like real complex numbers.
+
+\subsubsection{Polynomials}
+\label{sec:org6b82017}
+
+Because of their noncommutativity, quaternion polynomials cannot be as simply described as other polynomials. Thus, a quaterntion polynomial can be defined as
+\begin{equation}
+    p(z) = \sum^l_{k=0} \sum^m_{i=0} p_{i0}zp_{i1}z \cdots zp_{ik}
+\end{equation}
+where \(l,m \in \symbb{N}\), \(p_{ij} \in \symbb{H}\) and \(z\) is indeterminate. In this case, \(l\) represents the highest degree of our polynomial.
+
+\subsection{Ray Tracing}
+\label{sec:org9b4a9ea}
+
+The algorithm for ray tracing involves simulating the paths of rays of light as they interact with surfaces in a scene to generate realistic 2-dimensional images of 3-dimensional objects. A ray is defined as a point in 3-space, known as the \emph{origin}, plus a normalized vector known as the \emph{direction}. The set of rays can be represented with the tuple \(\symscr{R} = (\symbb{R}^3, \symbb{P})\).
+
+To begin, the algorithm takes a scene containing the objects we wish to visualize. We define a point known as our \emph{eye} or \emph{camera} and we define a grid, known as our \emph{image plane} some set distance and direction away from the eye. In real terms, the image plane represents a computer display and the eye represents the point of perspective relative to the display.
+
+The next step is to generate rays that originate from the eye point and pass through each pixel on the image plane. These rays are traced through the scene by testing for intersections with the objects in the scene. If an intersection is found, the algorithm calculates the color and shading of the object at that intersection point.
+
+To calculate the color and shading, the algorithm considers the properties of the surface material, such as its reflectivity and transparency, as well as the position and intensity of light sources in the scene. This information is used to determine the color of the object at the intersection point, which is then projected onto the corresponding pixel on the image plane.
+
+The process of generating and tracing rays for each pixel on the image plane is repeated until all pixels have been processed, resulting in a complete image of the scene.
+
+We can formally write this algorithm for tracing the object \(\symtt{O}\) where \(B\) is a maximum ray length condition and \(\delta\) is some small amount to increment by:
+\begin{algorithm}
+$e \in \symbb{R}^3$
+$R \gets \{ r \in \symscr{R} : \text{origin is } e \text{ and ray intersects image plane} \}$
+\For{$r \in R$}{
+    $p_0 \gets$ point of intersection between $r$ and image plane \\
+    $p \gets p_0$ \\
+    \While{$\abs{e-p} < B$}{
+        \eIf{$p$ intersects $\symtt{O}$}{
+            Calculate surface for $p$ and display at $p_0$ \\
+            \textbf{break}
+        }{
+            $p \gets p + \delta$
+        }
+    }
+}
+\caption{Ray Tracing}
+\end{algorithm}
+
+\section{Main Results}
+\label{sec:org5842904}
+
+\subsection{Quaternion Julia Set}
+\label{sec:org689aaed}
+
+Just like the complex case, Julia sets can be generated by quaternion polynomials. Let \(p(z)\) be some quaternion polynomial. Then, for any quaternion \(q\), there exists another quaternion \(p(q)\). This means we can preform the iterative operation from definition \ref{iter-def} on quaternion polynomial functions.
+
+Since we are able to iterate quaternion polynomials, we can apply the same analysis seen in the section \ref{complex-dyn-sys} to quaternions. Assuming the same definitions for fixed points and cycles, we can define our basis of attraction for a Julia set generated by the polynomial function \(p(z)\) to be \(A_p(\infty)\). Thus we can define a Julia set \(J_p = \partial A_p(\infty)\) and the filled-in Julia set
+\begin{equation*}
+    K_p = \symbb{H} \setminus A_c(\infty) = \left\{ z_0 \in \symbb{H}: \abs{p^k \left(z_0 \right)} \text{ is not infinite for all } k \right\}
+\end{equation*}
+
+\subsection{Ray Tracing Quaternion Fractals}
+\label{sec:org16f4a11}
+
+To render quaternion fractals, we can adapt the ray tracing algorithm to our case:
+
+\begin{algorithm}
+$e \in \symbb{R}^3$
+$R \gets \{ r \in \symscr{R} : \text{origin is } e \text{ and ray intersects image plane} \}$
+\For{$r \in R$}{
+    $p_0 \gets$ point of intersection between $r$ and image plane \\
+    $p \gets p_0$ \\
+    \While{$\abs{e-p} < B$}{
+        \eIf{$\abs{f^k_q(p)} \not\to \infty$ as $k \to \infty$}{
+            Calculate surface for $p$ and display at $p_0$ \\
+            \textbf{break}
+        }{
+            $p \gets p + \delta$
+        }
+    }
+}
+\caption{Ray Tracing Fractals}
+\end{algorithm}
+
+The algorithm has a few issues that need to be addressed. Firstly, although we have described quaternions as a 4-dimensional numbering system, science has only allowed us to observe up to the third dimension. We will present a solution to this problem in section \ref{quat-to-real}.
+
+Secondly, the algorithm is computationally expensive to render. For instance, when rendering to a typical 1920x1080 pixel computer display with 2,073,600 rays, assuming a maximum length of 2 for each ray, and incrementing \(\delta = 0.0005\) along each ray, we need to calculate a fractal intersection 4000 times per ray. This amounts to a total of 8,294,400,000 tests. In section \ref{marching}, we will discuss some optimization techniques to address this issue.
+
+\subsubsection{Mapping Quaternions to Real Space}
+\label{quat-to-real}
+We can solve the human lack of dimensionality by mapping our quaternion fractals into a 3-dimensional space. We do this by ignoring one dimension. For example, given \(q = x\symbf{i} + y\symbf{j} + z\symbf{k}\) we can take the slice \(\left\{w + x\symbf{i} + y\symbf{j} + 0\symbf{k} \right\}\) and define a function \(g : \left\{w + x\symbf{i} + y\symbf{j} + 0\symbf{k} \right\} \to \symbb{R}^3\) such that
+\begin{equation}
+\label{q-to-real}
+    g(q) = (w,x,y)
+\end{equation}
+
+We can then take advantage of the equations (\ref{q-unit}) and (\ref{q-unit-inverse}) to rotate the dimension hidden by (\ref{q-to-real}) into focus. For example if we multiply \(q\) by \(\symbf{k}\) and then take \(g(q\symbf{k})\) we will get
+\begin{talign*}
+    g\left(q \symbf{k}\right) & = g\left(w\symbf{k} + x\symbf{ik} + y\symbf{jk} + z\symbf{k}^2 \right) \\
+    & = g\left(w\symbf{k} - x\symbf{j} + y\symbf{i} - z \right) \\
+    & = g\left(-z + y\symbf{i} - x\symbf{j} +  w\symbf{k} \right) \\
+    & = (-z,y,-x)
+\end{talign*}
+
+\subsubsection{Ray Marching and Distance Estimation}
+\label{marching}
+Ray marching is a technique used to optimize ray tracing by reducing the number of iterations needed per ray. Instead of taking fixed steps along the ray, the distance to the fractal surface is estimated at each point and the ray is advanced by that distance. This allows for adaptive step sizes that can be reduced as the distance to the fractal surface decreases, resulting in more accurate rendering with fewer iterations.
+
+To achieve this, we need to be able to estimate the distance to the fractal surface at any given point along the ray. This is where distance estimation comes into play. Distance estimation is a technique used to approximate the distance to the fractal surface at any point in space.
+
+For quaternion fractals of the form \(f_p(z) + q\), where \(q \in \symbb{H}\) and \(n \in \symbb{Z}^+\), we can use the formula
+\begin{equation}
+    a \frac{f_p^k(z)}{\left(f_p^k\left(z\right)\right)'} < \delta
+\end{equation}
+where \(a\) is some constant parameter, to determine the lower bound of our distance to the fractal.
+
+With the distance estimate, we can now perform ray marching to efficiently render the fractal. At each point along the ray, we estimate the distance to the fractal surface and advance along the ray by that distance. We repeat this process until we either reach the fractal surface or we exceed a maximum number of iterations. By using adaptive step sizes, we can achieve more accurate rendering with fewer iterations, resulting in faster rendering times.
+
+\section{Conclusion}
+\label{sec:orgb29f40d}
+
+In conclusion, this paper has presented an exploration into the use of quaternion polynomials to generate fractals in 3D space and the adaptation of ray tracing algorithms to render these fractals. By defining quaternion Julia sets and filled-in Julia sets, we have shown how the dynamics of hypercomplex systems can be analyzed and visualized through fractals. Our adapted ray tracing algorithm for rendering quaternion fractals provides a powerful tool for visualizing these complex structures, though it is computationally expensive. Finally, we discussed various optimization techniques to address this issue, such as marching cubes, which can significantly reduce computation time.
+
+\clearpage % Page break
+\nocite{*} % Enables all sources in bib
+\bibliography{sources}
+\bibliographystyle{alpha}
+\end{document}
