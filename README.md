@@ -1,4 +1,4 @@
-# Senior Synthesis Project 2022–2024
+# Senior Synthesis Project 2022–2023
 
 ![Figure of Quaternion Fractal](Figs/Fig_1v2.png)
 
@@ -12,7 +12,7 @@ This repository contains the final results of my Undergraduate Mathematics Senio
 
 ## Building <a name="building"></a>
 
-Both the presentation and paper are written in [Emacs Org Mode](https://orgmode.org/), which is compiled to latex, which is compiled to PDFs. Graphs in the presentation are generated inside the org file using python. Thus, to build one must have working org-mode, latex, and python environments. Alternatively, the pre-compiled tex files and images can be used which only require latex.
+Both the presentation and paper are written in [Emacs Org Mode](https://orgmode.org/), which is compiled to latex, which is compiled to PDFs. Graphs in the presentation are generated inside the org file using python. Thus, to build one must have working org-mode, latex, and python environments. Alternatively, the pre-compiled tex files and images can be used which only requires latex.
 
 ### 1. Python and org-mode
 
